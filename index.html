@@ -44,12 +44,12 @@
         .iframe-wrapper {
             position: relative; padding-bottom: 56.25%; height: 0;
         }
-        .iframe-wrapper iframe {
+        .iframe-wrapper video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: none; background-color: black;
+            background-color: black; outline: none;
         }
 
-        /* Naya VIP Telegram Button Design */
+        /* VIP Telegram Button Design */
         .telegram-btn-container {
             width: 95%; max-width: 900px;
             text-align: center;
@@ -57,14 +57,14 @@
         }
         .telegram-btn {
             display: inline-block;
-            background-color: #0088cc; /* Telegram ka asli blue color */
+            background-color: #0088cc;
             color: white;
             text-decoration: none;
             padding: 15px 30px;
             font-size: 18px;
             font-weight: 900;
             border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -72,7 +72,7 @@
         }
         .telegram-btn:hover {
             background-color: #0077b5;
-            transform: scale(1.05); /* Mouse le jane par button bada hoga */
+            transform: scale(1.05);
             box-shadow: 0 8px 25px rgba(0, 136, 204, 0.8);
         }
         .telegram-btn span {
@@ -88,6 +88,8 @@
         }
         .match-info p { margin: 0; font-size: 16px; color: #ccc; }
     </style>
+    <!-- HLS.js Player Library -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
@@ -98,15 +100,11 @@
 
     <div class="video-container">
         <div class="iframe-wrapper">
-            <iframe 
-                src="https://ro45-star-sports-2hd.pages.dev/" 
-                allow="autoplay; encrypted-media; fullscreen" 
-                allowfullscreen>
-            </iframe>
+            <video id="videoPlayer" controls autoplay></video>
         </div>
     </div>
 
-    <!-- Aapka Apna Telegram Button Yahan Hai -->
+    <!-- Telegram Button -->
     <div class="telegram-btn-container">
         <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
             <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
@@ -116,6 +114,29 @@
     <div class="match-info">
         <p>Agar video play nahi ho raha hai, toh apne page ko refresh karein.</p>
     </div>
+
+    <script>
+        // Aapka naya aur clean m3u8 link yahan jud gaya hai
+        var streamUrl = "https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8"; 
+        
+        var video = document.getElementById('videoPlayer');
+
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadStatus = streamUrl;
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        }
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = streamUrl;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
+        }
+    </script>
 
 </body>
 </html>
