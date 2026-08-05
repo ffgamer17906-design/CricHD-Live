@@ -6,9 +6,9 @@
     <title>Crichd Live - Watch Live Match</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,11 +19,11 @@
         
         .header {
             width: 100%;
-            background-color: #000;
+            background-color: #1a1a1a;
             padding: 15px 20px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            border-bottom: 2px solid #ff3b30;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            border-bottom: 3px solid #ff3b30;
             box-sizing: border-box;
         }
         .header h1 {
@@ -32,25 +32,25 @@
         }
         .header span { color: #ff3b30; }
         .live-badge {
-            background-color: #ff3b30; color: white; padding: 4px 10px;
-            font-size: 12px; font-weight: bold; border-radius: 20px;
-            animation: blink 1.5s infinite; display: inline-block; margin-top: 5px;
+            background-color: #ff3b30; color: white; padding: 4px 12px;
+            font-size: 11px; font-weight: bold; border-radius: 20px;
+            animation: blink 1.5s infinite; display: inline-block; margin-top: 6px;
         }
-        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes blink { 50% { opacity: 0.3; } }
         
         .video-container {
-            width: 95%; max-width: 900px; 
-            margin: 20px auto 10px auto; 
+            width: 95%; max-width: 950px; 
+            margin: 25px auto 10px auto; 
             background-color: #000; 
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.9);
             border: 1px solid #333;
         }
         
         .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%; /* 16:9 Ratio */
             height: 0;
         }
 
@@ -65,57 +65,109 @@
         }
 
         .telegram-btn-container {
-            width: 95%; max-width: 900px;
+            width: 95%; max-width: 950px;
             text-align: center;
-            margin-bottom: 30px;
-            margin-top: 10px;
+            margin: 15px 0 25px 0;
         }
         .telegram-btn {
             display: inline-block;
-            background-color: #0088cc;
+            background: linear-gradient(135deg, #0088cc, #00aaff);
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 14px 30px;
+            font-size: 17px;
             font-weight: 900;
             border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: 2px solid #00aaff;
-            transition: transform 0.3s ease;
+            border: none;
+            transition: transform 0.2s;
         }
         .telegram-btn:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
+        }
+
+        /* FAQ SECTION (Niche Scroll karne par dikhega) */
+        .faq-section {
+            width: 95%;
+            max-width: 950px;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-sizing: border-box;
+            border: 1px solid #333;
+        }
+        .faq-section h3 {
+            color: #ff3b30;
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .faq-item {
+            margin-bottom: 15px;
+        }
+        .faq-question {
+            font-weight: bold;
+            color: #ddd;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+        .faq-answer {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.5;
         }
     </style>
-    <!-- HLS.js Player Library -->
+    <!-- HLS.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
     <div class="header">
         <h1>🏏 Crichd <span>Live</span></h1>
-        <div class="live-badge">● LIVE NOW</div>
+        <div class="live-badge">● LIVE STREAMING</div>
     </div>
 
+    <!-- Video Player Box -->
     <div class="video-container">
         <div class="video-wrapper">
-            <!-- Hamara apna clean video player jisme koi captcha nahi aayega -->
             <video id="videoPlayer" controls autoplay playsinline></video>
         </div>
     </div>
 
+    <!-- Telegram Button -->
     <div class="telegram-btn-container">
         <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
             <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
         </a>
     </div>
 
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <h3>❓ Frequently Asked Questions (FAQ)</h3>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q1: Match chal nahi raha ya black screen aa rahi hai toh kya karein?</div>
+            <div class="faq-answer">Ans: Ek baar page ko refresh karein ya apna internet connection check karein. Agar phir bhi na chale toh kuch der wait karein stream update ho rahi hogi.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q2: Kya yeh website bilkul free hai match dekhne ke liye?</div>
+            <div class="faq-answer">Ans: Haan, yahan aap bina kisi charges ke live cricket matches ka anand le sakte hain.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q3: Video ki quality ya volume kaise control karein?</div>
+            <div class="faq-answer">Ans: Video player ke niche diye gaye controls (Volume slider, Fullscreen button aur Settings icon) ka use karke aap aawaz aur quality badal sakte hain.</div>
+        </div>
+    </div>
+
     <script>
-        // Aapki asli .m3u8 link (Proxy ke sath taaki CORS block na ho)
-        var rawUrl = "https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8";
-        var streamUrl = "https://corsproxy.io/?" + encodeURIComponent(rawUrl);
+        // 🛠️ YAHAN APNI LINK PASTE KAREN (Bracket samet hata kar apni link daal dena):
+        var streamUrl = "[https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8]"; 
         
         var video = document.getElementById('videoPlayer');
 
@@ -125,12 +177,11 @@
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play().catch(e => {
-                    console.log("Auto-play blocked, user interaction needed");
+                    console.log("Auto-play restricted by browser.");
                 });
             });
         }
         else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Safari / iPhone ke liye
             video.src = streamUrl;
             video.addEventListener('loadedmetadata', function() {
                 video.play().catch(e => {});
