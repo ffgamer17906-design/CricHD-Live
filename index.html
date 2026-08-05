@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #111; /* Dark background for video site */
+            background-color: #111;
             color: white;
             margin: 0;
             padding: 0;
@@ -15,8 +15,6 @@
             flex-direction: column;
             align-items: center;
         }
-        
-        /* Header Styling */
         .header {
             width: 100%;
             background-color: #000;
@@ -24,102 +22,73 @@
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             border-bottom: 2px solid #ff3b30;
+            box-sizing: border-box;
         }
         .header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            margin: 0; font-size: 28px; font-weight: 900;
+            color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
         }
-        .header span {
-            color: #ff3b30; /* Red color for 'Live' */
-        }
+        .header span { color: #ff3b30; }
         .live-badge {
-            background-color: #ff3b30;
-            color: white;
-            padding: 4px 10px;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 20px;
-            animation: blink 1.5s infinite;
-            display: inline-block;
-            margin-top: 5px;
+            background-color: #ff3b30; color: white; padding: 4px 10px;
+            font-size: 12px; font-weight: bold; border-radius: 20px;
+            animation: blink 1.5s infinite; display: inline-block; margin-top: 5px;
         }
         @keyframes blink { 50% { opacity: 0; } }
-
-        /* Video Player Container (Responsive 16:9) */
-        .video-container {
-            width: 95%;
-            max-width: 900px;
-            margin: 30px auto;
-            background-color: #222;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            border: 1px solid #333;
-        }
         
-        /* Maintain 16:9 Aspect Ratio */
-        .iframe-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 ratio */
-            height: 0;
+        .video-container {
+            width: 95%; max-width: 900px; margin: 30px auto;
+            background-color: #000; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #333;
         }
-        .iframe-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+        .iframe-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0;
+        }
+        /* Iframe ki jagah Video tag ka design */
+        .iframe-wrapper video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: black; outline: none;
         }
 
-        /* Footer Info */
         .match-info {
-            width: 95%;
-            max-width: 900px;
-            margin-bottom: 30px;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid #007aff;
+            width: 95%; max-width: 900px; margin-bottom: 30px;
+            background: #1a1a1a; padding: 15px; border-radius: 8px;
+            text-align: center; border-left: 4px solid #007aff; box-sizing: border-box;
         }
-        .match-info p {
-            margin: 0;
-            font-size: 16px;
-            color: #ccc;
-        }
+        .match-info p { margin: 0; font-size: 16px; color: #ccc; }
     </style>
+    <!-- MPD links chalane ke liye Dash.js player library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/3.2.1/dash.all.min.js"></script>
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header">
         <h1>🏏 Crichd <span>Live</span></h1>
         <div class="live-badge">● LIVE NOW</div>
     </div>
 
-    <!-- Video Player Section -->
     <div class="video-container">
         <div class="iframe-wrapper">
-            
-            <//jiotvpllive.cdn.jio.com/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/index.mpd?__hdnea__=st=1785923758~exp=1785945358~acl=/bpk-tv/Star_Sports>
-            <iframehttps:_HD1_Hindi_BTS/WDVLive/*~hmac=e2911d45d29f28f1b95f0fc905ca6d3da37cabe6bf08bb979006c387c6d12a10 
-                src="YAHAN_APNA_LINK_DALEIN" 
-                allow="autoplay; encrypted-media; fullscreen" 
-                allowfullscreen>
-            </iframe>
-            
+            <!-- Iframe ki jagah ab Video Player hai -->
+            <video id="videoPlayer" controls autoplay></video>
         </div>
     </div>
 
-    <!-- Match Information -->
     <div class="match-info">
         <p>Agar video play nahi ho raha hai, toh apne page ko refresh karein.</p>
     </div>
+
+    <script>
+        // Aapka Jio TV ka link yahan theek karke jod diya gaya hai
+        var streamUrl = "https://jiotvpllive.cdn.jio.com/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/index.mpd?__hdnea__=st=1785923758~exp=1785945358~acl=/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/*~hmac=e2911d45d29f28f1b95f0fc905ca6d3da37cabe6bf08bb979006c387c6d12a10";
+        
+        // Video player shuru karne ka code
+        document.addEventListener("DOMContentLoaded", function () {
+            var video = document.querySelector("#videoPlayer");
+            var player = dashjs.MediaPlayer().create();
+            player.initialize(video, streamUrl, true);
+        });
+    </script>
 
 </body>
 </html>
