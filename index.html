@@ -64,7 +64,7 @@
             font-size: 18px;
             font-weight: 900;
             border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -88,7 +88,7 @@
         }
         .match-info p { margin: 0; font-size: 16px; color: #ccc; }
     </style>
-    <!-- HLS.js Player Library -->
+    <!-- HLS.js Player Library (m3u8 chalane ke liye) -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
@@ -100,11 +100,12 @@
 
     <div class="video-container">
         <div class="iframe-wrapper">
+            <!-- Asli Video Tag -->
             <video id="videoPlayer" controls autoplay></video>
         </div>
     </div>
 
-    <!-- Telegram Button -->
+    <!-- Aapka apna Telegram Button -->
     <div class="telegram-btn-container">
         <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
             <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
@@ -116,14 +117,13 @@
     </div>
 
     <script>
-        // Aapka naya aur clean m3u8 link yahan jud gaya hai
-        var streamUrl = "https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8"; 
+        // Proxy wala sabse correct m3u8 link
+        var streamUrl = "https://ttt.nayanasri2026.workers.dev/no/https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8"; 
         
         var video = document.getElementById('videoPlayer');
 
         if (Hls.isSupported()) {
             var hls = new Hls();
-            hls.loadStatus = streamUrl;
             hls.loadSource(streamUrl);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
