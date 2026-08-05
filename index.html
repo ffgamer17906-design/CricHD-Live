@@ -1,162 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Crichd Live - Watch Live Match</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Tag (gtag.js) - Google Analytics Tracking Code -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XZFSKSMR7G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XZFSKSMR7G');
+    </script>
+
+    <!-- IND vs SL Series SEO Meta Tags -->
+    <title>🔴 LIVE: IND vs SL Test Match Live Streaming - Watch India vs Sri Lanka Free</title>
+    <meta name="description" content="Watch India vs Sri Lanka Test series live streaming in HD on crichdlive.in. Enjoy buffering-free IND vs SL live match online, live scores, and playing XI.">
+    <meta name="keywords" content="ind vs sl live streaming, india vs sri lanka live match, ind vs sl test live, crichd live, crichdlive.in, today test match live">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://crichdlive.in/" />
+
+    <!-- Google Video Schema for IND vs SL -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "India vs Sri Lanka Live Test Match Streaming",
+      "description": "Watch live HD streaming of IND vs SL Test Match without buffering.",
+      "thumbnailUrl": "https://via.placeholder.com/1280x720.png?text=IND+vs+SL+Live+Match",
+      "uploadDate": "2026-08-15T09:30:00+05:30",
+      "contentUrl": "https://crichdlive.in/",
+      "embedUrl": "https://crichdlive.in/",
+      "isFamilyFriendly": "true",
+      "publication": {
+        "@type": "BroadcastEvent",
+        "isLiveBroadcast": true,
+        "startDate": "2026-08-15T09:30:00+05:30"
+      }
+    }
+    </script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <style>
-        /* SCROLL PURI TARAH BLOCK KAR DIYA HAI */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; 
-            touch-action: none; 
-            overscroll-behavior: none; 
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        :root { --bg-dark: #050505; --primary: #00e5ff; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         
-        .header {
-            width: 100%;
-            background-color: #000;
-            padding: 10px 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            border-bottom: 2px solid #ff3b30;
+        /* Player Design */
+        .player-wrapper { width: 100%; max-width: 900px; position: relative; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.15); }
+        .aspect-ratio { position: relative; padding-bottom: 56.25%; height: 0; }
+        .player-cover { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 20; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; }
+        .play-btn { font-size: 50px; color: var(--primary); border: 2px solid var(--primary); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .player-cover:hover .play-btn { background-color: var(--primary); color: #000; transform: scale(1.1); }
+
+        /* WhatsApp Button Design */
+        .wa-join-btn {
+            background-color: #25D366; color: #000; padding: 15px 30px;
+            font-size: 18px; font-weight: bold; border-radius: 50px;
+            text-decoration: none; display: inline-block;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: 0.3s;
+        }
+        .wa-join-btn:hover { background-color: #1ebd5a; transform: scale(1.05); }
+
+        /* Live Score Box Design */
+        .score-container {
+            max-width: 900px; width: 100%; margin-bottom: 15px; background: #0a0a0a; 
+            padding: 15px; border-radius: 8px; border: 1px solid #1a1a1a; text-align: center; 
             box-sizing: border-box;
-            flex-shrink: 0;
-            z-index: 10;
-        }
-        .header h1 {
-            margin: 0; font-size: 24px; font-weight: 900;
-            color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
-        }
-        .header span { color: #ff3b30; }
-        
-        .video-container {
-            width: 100%; max-width: 900px; 
-            margin: auto; 
-            background-color: #000; 
-            position: relative;
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-        .iframe-wrapper {
-            position: relative; padding-bottom: 56.25%; height: 0;
-            pointer-events: auto;
-        }
-        .iframe-wrapper iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: none; background-color: black;
         }
 
-        /* 🔥 WATERMARK CHHUPANE WALE BADE BOXES 🔥 */
-        .cover-box {
-            position: absolute;
-            background-color: #000; /* Pura Kaala Rang Piche Ki Cheez Chhupane Ke Liye */
-            color: #ff3b30;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            pointer-events: none; /* Click aar-paar jaane ke liye */
-            border: 2px solid #ff3b30;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(0,0,0,1);
+        /* SEO Content Box Design */
+        .seo-content {
+            max-width: 900px; width: 100%; margin-top: 10px; background: #0a0a0a; 
+            padding: 25px; border-radius: 8px; border: 1px solid #1a1a1a; line-height: 1.6;
+            box-sizing: border-box;
         }
-
-        /* 1. Upar Left Wala Box (@ Logo ke liye) */
-        .top-left-logo {
-            top: 5px;
-            left: 5px;
-            width: 150px;  /* Isko aur bada karne ke liye number badhayein */
-            height: 40px;
-            font-size: 16px;
-        }
-
-        /* 2. Upar Right Wala Box (Dusre Watermark ke liye) */
-        .top-right-logo {
-            top: 5px;
-            right: 5px;
-            width: 220px; /* Isko aur bada karne ke liye number badhayein */
-            height: 50px;
-            font-size: 18px;
-        }
-
-        /* 3. Niche Scoreboard Chhupane Wala Bada Box */
-        .bottom-score-cover {
-            bottom: 10px;
-            left: 50%; /* Center mein rakhne ke liye */
-            transform: translateX(-50%);
-            width: 350px; /* Scoreboard jitna bada hai, utna bada number kar dein */
-            height: 60px; /* Box ki lambaai */
-            font-size: 22px;
-            letter-spacing: 2px;
-        }
-
-        .telegram-btn-container {
-            width: 100%; max-width: 900px;
-            text-align: center;
-            padding: 15px 0;
-            flex-shrink: 0;
-            background-color: #111;
-            z-index: 10;
-        }
-        .telegram-btn {
-            display: inline-block;
-            background-color: #0088cc;
-            color: white;
-            text-decoration: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: 900;
-            border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid #00aaff;
-        }
+        .seo-content h1 { color: #00e5ff; font-size: 24px; margin-top: 0; }
+        .seo-content h2 { color: #00e5ff; font-size: 20px; margin-top: 20px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+        .seo-content h3 { font-size: 16px; color: #fff; margin-bottom: 5px; }
+        .seo-content p { color: #ccc; font-size: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>🏏 Crichd <span>Live</span></h1>
-    </div>
+    <!-- WhatsApp Button (प्लेयर के ऊपर) -->
+    <a href="https://whatsapp.com/channel/0029VbCjOyZLI8YafhIOAo0d" target="_blank" class="wa-join-btn" style="margin-bottom: 20px;">
+        📢 Join WhatsApp Channel for Links
+    </a>
 
-    <div class="video-container">
-        <div class="iframe-wrapper">
-            <!-- Asli Video Player -->
-            <iframe 
-                src="https://ro45-star-sports-2hd.pages.dev/" 
-                allow="autoplay; encrypted-media; fullscreen" 
-                scrolling="no"
-                allowfullscreen>
-            </iframe>
-            
-            <!-- 1. Left Side Wala Logo -->
-            <div class="cover-box top-left-logo">CRICHD</div>
-            
-            <!-- 2. Right Side Wala Logo -->
-            <div class="cover-box top-right-logo">CRICHD LIVE</div>
-
-            <!-- 3. Niche Scoreboard Wala Logo -->
-            <div class="cover-box bottom-score-cover">JOIN TELEGRAM</div>
-            
+    <!-- Player -->
+    <div class="player-wrapper">
+        <div id="player-cover" class="player-cover" onclick="startStream()">
+            <div class="play-btn">▶</div>
+            <p id="status-text" style="margin-top: 15px; font-size: 18px; font-weight: bold; color: #ffcc00;">⏳ लिंक लोड हो रहा है...</p>
+        </div>
+        <div class="aspect-ratio">
+            <div id="video-player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
         </div>
     </div>
 
-    <div class="telegram-btn-container">
-        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
-            <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
-        </a>
+    <!-- Live Score Widget (वीडियो प्लेयर के ठीक नीचे) -->
+    <div class="score-container">
+        <h3 style="color: #00e5ff; margin-top: 0; font-size: 18px;">🏏 IND vs SL - Live Score</h3>
+        <!-- Free Embedded Score Widget -->
+        <div style="background: #ffffff; border-radius: 5px; overflow: hidden; padding: 5px;">
+            <script type="text/javascript" src="https://www.cricwaves.com/cricket/widgets/script/scoreWidgets.js"></script>
+        </div>
+        <p style="color: #888; font-size: 12px; margin-bottom: 0; margin-top: 10px;">Score updates automatically.</p>
     </div>
 
+    <!-- SEO & Match Details Section (Google Ranking के लिए) -->
+    <div class="seo-content">
+        <h1>IND vs SL Live Streaming - Watch Test Match Online in HD</h1>
+        <p>Welcome to <strong>CricHD Live</strong> (crichdlive.in). Get ready for the thrilling <strong>India vs Sri Lanka Test Series</strong> starting from August 15. Watch the complete IND vs SL match live online directly on your mobile and desktop in HD quality without any buffering.</p>
+        
+        <h2>India vs Sri Lanka Match Details & Playing XI</h2>
+        <p>Catch every ball, four, and six of the IND vs SL Test match today. Our advanced low-data player ensures that you don't miss any moment of the India tour of Sri Lanka even on a slow internet connection.</p>
+        
+        <h2>Frequently Asked Questions (FAQs)</h2>
+        <div style="margin-bottom: 15px;">
+            <h3>⚡ How to watch IND vs SL live match for free?</h3>
+            <p style="margin-top: 0;">Simply click the play button on our video player above. CricHD Live provides seamless WebWorker-based HLS streaming for the India vs Sri Lanka series.</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3>📱 Can I watch live matches on mobile devices?</h3>
+            <p style="margin-top: 0;">Yes! CricHD Live is fully responsive and optimized for Android, iOS, tablets, and desktop browsers without needing any external app.</p>
+        </div>
+    </div>
+
+    <script>
+        var API_URL = "https://live-match-api-nine.vercel.app/api";
+        var currentLink = "";
+        var isLoaded = false;
+
+        // API से डेटा लोड करना
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(data => { 
+                if(data && data.live_link) {
+                    currentLink = data.live_link; 
+                    isLoaded = true;
+                    document.getElementById('status-text').innerText = "Click to Watch Live ▶";
+                    document.getElementById('status-text').style.color = "#00e5ff";
+                } else {
+                    throw new Error("लिंक नहीं मिला");
+                }
+            })
+            .catch(err => {
+                console.log("API Error:", err);
+                document.getElementById('status-text').innerText = "❌ लिंक लोड करने में विफल! बाद में प्रयास करें।";
+                document.getElementById('status-text').style.color = "#ff4444";
+            });
+
+        function startStream() {
+            if (!isLoaded || currentLink === "") { 
+                alert("कृपया 2 सेकंड रुकें, लाइव लिंक अभी लोड हो रहा है..."); 
+                return; 
+            }
+            
+            document.getElementById('player-cover').style.display = 'none';
+            document.getElementById('video-player').innerHTML = "";
+
+            var player = new Clappr.Player({
+                source: currentLink, 
+                parentId: "#video-player",
+                width: '100%', 
+                height: '100%', 
+                autoPlay: true,
+                mimeType: "application/x-mpegURL",
+                playback: {
+                    hlsjsConfig: {
+                        enableWorker: true,
+                        lowLatencyMode: true,
+                        maxBufferLength: 30,
+                        manifestLoadingTimeOut: 15000,
+                        manifestLoadingMaxRetry: 3
+                    }
+                },
+                events: {
+                    onError: function(e) {
+                        console.error("Player Error:", e);
+                        alert("⚠️ स्ट्रीम प्ले नहीं हो सकी! यह CORS Policy (ब्राउज़र ब्लॉक) या टोकन एक्सपायर होने के कारण हो सकता है।");
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>
