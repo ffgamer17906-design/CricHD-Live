@@ -37,23 +37,54 @@
         @keyframes blink { 50% { opacity: 0; } }
         
         .video-container {
-            width: 95%; max-width: 900px; margin: 30px auto;
+            width: 95%; max-width: 900px; margin: 30px auto 15px auto;
             background-color: #000; border-radius: 10px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #333;
         }
         .iframe-wrapper {
             position: relative; padding-bottom: 56.25%; height: 0;
         }
-        /* Iframe design jisme aapka link fit hoga */
         .iframe-wrapper iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border: none; background-color: black;
         }
 
+        /* Naya VIP Telegram Button Design */
+        .telegram-btn-container {
+            width: 95%; max-width: 900px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .telegram-btn {
+            display: inline-block;
+            background-color: #0088cc; /* Telegram ka asli blue color */
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 900;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid #00aaff;
+        }
+        .telegram-btn:hover {
+            background-color: #0077b5;
+            transform: scale(1.05); /* Mouse le jane par button bada hoga */
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.8);
+        }
+        .telegram-btn span {
+            font-size: 22px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
         .match-info {
             width: 95%; max-width: 900px; margin-bottom: 30px;
             background: #1a1a1a; padding: 15px; border-radius: 8px;
-            text-align: center; border-left: 4px solid #007aff; box-sizing: border-box;
+            text-align: center; border-left: 4px solid #ff3b30; box-sizing: border-box;
         }
         .match-info p { margin: 0; font-size: 16px; color: #ccc; }
     </style>
@@ -67,13 +98,19 @@
 
     <div class="video-container">
         <div class="iframe-wrapper">
-            <!-- Aapka diya hua link Iframe ke andar yahan laga diya gaya hai -->
             <iframe 
                 src="https://ro45-star-sports-2hd.pages.dev/" 
                 allow="autoplay; encrypted-media; fullscreen" 
                 allowfullscreen>
             </iframe>
         </div>
+    </div>
+
+    <!-- Aapka Apna Telegram Button Yahan Hai -->
+    <div class="telegram-btn-container">
+        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
+            <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
+        </a>
     </div>
 
     <div class="match-info">
