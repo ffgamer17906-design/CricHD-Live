@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Score | Pro Cricket Live</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#1e3a8a', accent: '#38bdf8', darkBg: '#0f172a' } } } }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-darkBg dark:text-gray-100 transition-colors duration-300">
 
+    <!-- Simple Nav for subpage -->
+    <nav class="w-full glass-nav px-6 py-4 flex justify-between items-center mb-8">
+        <a href="index.html" class="text-xl font-bold"><i class="fas fa-arrow-left mr-2"></i> Back to Home</a>
+        <button id="theme-toggle" class="p-2 rounded-full"><i class="fas fa-moon dark:hidden"></i><i class="fas fa-sun hidden dark:block text-yellow-400"></i></button>
+    </nav>
+
+    <main class="container mx-auto px-4 pb-12">
+        
+        <!-- Score Header Card -->
+        <div class="glass-card rounded-2xl p-6 md:p-10 mb-8 border-t-4 border-red-500 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-1 rounded-bl-xl font-bold text-sm animate-pulse">LIVE</div>
+            
+            <div class="text-center mb-6 text-sm text-gray-500 dark:text-gray-400 font-semibold tracking-wide">
+                1ST TEST - DAY 3 - SESSION 2 • LORDS, LONDON
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <!-- Team A -->
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-20 h-20 rounded-full bg-blue-800 text-white flex items-center justify-center text-2xl font-bold shadow-lg mb-3">ENG</div>
+                    <h2 class="text-3xl font-extrabold">345 & 112/3</h2>
+                    <p class="text-gray-500 dark:text-gray-400">32.4 Overs</p>
+                </div>
+
+                <!-- Match Status -->
+                <div class="flex-1 text-center">
+                    <div class="text-sm font-bold text-accent mb-2">CRR: 3.44</div>
+                    <p class="text-lg font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 py-2 px-4 rounded-full inline-block">
+                        England lead by 187 runs
+                    </p>
+                </div>
+
+                <!-- Team B -->
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-20 h-20 rounded-full bg-yellow-500 text-black flex items-center justify-center text-2xl font-bold shadow-lg mb-3">AUS</div>
+                    <h2 class="text-3xl font-extrabold text-gray-400">270</h2>
+                    <p class="text-gray-500 dark:text-gray-400">1st Innings</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid Layout for Stats & Commentary -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Current Batsmen/Bowlers -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Batting Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Batters</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="text-sm text-gray-500 dark:text-gray-400">
+                                <tr>
+                                    <th class="pb-3">Name</th>
+                                    <th class="pb-3">R</th>
+                                    <th class="pb-3">B</th>
+                                    <th class="pb-3">4s</th>
+                                    <th class="pb-3">6s</th>
+                                    <th class="pb-3">SR</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-medium text-lg">
+                                <tr class="text-accent">
+                                    <td class="py-2">J. Root *</td>
+                                    <td>45</td>
+                                    <td>68</td>
+                                    <td>5</td>
+                                    <td>0</td>
+                                    <td>66.17</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">B. Stokes</td>
+                                    <td>28</td>
+                                    <td>42</td>
+                                    <td>3</td>
+                                    <td>1</td>
+                                    <td>66.67</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bowling Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Bowlers</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="text-sm text-gray-500 dark:text-gray-400">
+                                <tr>
+                                    <th class="pb-3">Name</th>
+                                    <th class="pb-3">O</th>
+                                    <th class="pb-3">M</th>
+                                    <th class="pb-3">R</th>
+                                    <th class="pb-3">W</th>
+                                    <th class="pb-3">ECON</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-medium text-lg">
+                                <tr class="text-accent">
+                                    <td class="py-2">P. Cummins *</td>
+                                    <td>12.4</td>
+                                    <td>3</td>
+                                    <td>45</td>
+                                    <td>2</td>
+                                    <td>3.55</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">N. Lyon</td>
+                                    <td>8.0</td>
+                                    <td>1</td>
+                                    <td>32</td>
+                                    <td>0</td>
+                                    <td>4.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Visualizations & Updates -->
+            <div class="space-y-8">
+                <!-- Analytics Placeholders -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-center">
+                    <h3 class="font-bold mb-4 text-left">Wagon Wheel</h3>
+                    <div class="h-48 w-full bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600">
+                        <span class="text-gray-400"><i class="fas fa-chart-pie text-3xl mb-2 block"></i> Data Visualization Area</span>
+                    </div>
+                </div>
+
+                <!-- Recent Balls -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+                    <h3 class="font-bold mb-4">Recent Overs</h3>
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2">
+                        <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center font-bold text-sm">1</span>
+                        <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center font-bold text-sm">0</span>
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 border border-blue-300 flex items-center justify-center font-bold text-sm">4</span>
+                        <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300 border border-red-300 flex items-center justify-center font-bold text-sm">W</span>
+                        <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center font-bold text-sm">0</span>
+                        <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center font-bold text-sm">1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>
