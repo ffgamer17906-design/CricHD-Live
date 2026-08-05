@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Crichd Live - Watch Live Match</title>
     <style>
-        /* SCROLL BAND RAKHNE KE LIYE */
+        /* SCROLL PURI TARAH BAND RAKHNE KE LIYE */
         html, body {
             height: 100%;
             margin: 0;
@@ -37,6 +37,12 @@
             color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
         }
         .header span { color: #ff3b30; }
+        .live-badge {
+            background-color: #ff3b30; color: white; padding: 2px 8px;
+            font-size: 10px; font-weight: bold; border-radius: 20px;
+            animation: blink 1.5s infinite; display: inline-block; margin-top: 5px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
         
         .video-container {
             width: 100%; max-width: 900px; 
@@ -50,52 +56,9 @@
             position: relative; padding-bottom: 56.25%; height: 0;
             pointer-events: auto;
         }
-        .iframe-wrapper iframe {
+        .iframe-wrapper video {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: none; background-color: black;
-        }
-
-        /* 🔥 CHHOTE BOXES (Taki Match Clear Dikhe) 🔥 */
-        .cover-box {
-            position: absolute;
-            background-color: #000; 
-            color: #ff3b30;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            pointer-events: none; 
-            border: 1px solid #ff3b30; /* Border bhi patla kar diya */
-            border-radius: 3px;
-        }
-
-        /* 1. Upar Left Wala Box (Bahut chhota kar diya) */
-        .top-left-logo {
-            top: 5px;
-            left: 5px;
-            width: 60px;  
-            height: 20px;
-            font-size: 10px;
-        }
-
-        /* 2. Upar Right Wala Box (Bahut chhota kar diya) */
-        .top-right-logo {
-            top: 5px;
-            right: 5px;
-            width: 80px; 
-            height: 20px;
-            font-size: 10px;
-        }
-
-        /* 3. Niche Wala Box (Patli si patti bana di hai) */
-        .bottom-score-cover {
-            bottom: 15px;
-            left: 50%; 
-            transform: translateX(-50%);
-            width: 120px; 
-            height: 22px; 
-            font-size: 11px;
+            background-color: black; outline: none;
         }
 
         .telegram-btn-container {
@@ -121,32 +84,20 @@
             border: 2px solid #00aaff;
         }
     </style>
+    <!-- HLS.js Player Library (.m3u8 chalane ke liye) -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
     <div class="header">
         <h1>🏏 Crichd <span>Live</span></h1>
+        <div class="live-badge">● LIVE NOW</div>
     </div>
 
     <div class="video-container">
         <div class="iframe-wrapper">
-            <!-- Asli Video Player -->
-            <iframe 
-                src="https://ro45-star-sports-2hd.pages.dev/" 
-                allow="autoplay; encrypted-media; fullscreen" 
-                scrolling="no"
-                allowfullscreen>
-            </iframe>
-            
-            <!-- 1. Left Side Wala Chhota Logo -->
-            <div class="cover-box top-left-logo">CRICHD</div>
-            
-            <!-- 2. Right Side Wala Chhota Logo -->
-            <div class="cover-box top-right-logo">CRICHD LIVE</div>
-
-            <!-- 3. Niche Wala Chhota Logo -->
-            <div class="cover-box bottom-score-cover">JOIN TELEGRAM</div>
-            
+            <!-- Asli Video Tag -->
+            <video id="videoPlayer" controls autoplay></video>
         </div>
     </div>
 
@@ -155,6 +106,29 @@
             <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
         </a>
     </div>
+
+    <script>
+        // Aapka naya .m3u8 link
+        var streamUrl = "https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8"; 
+        
+        var video = document.getElementById('videoPlayer');
+
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        }
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari browser ke liye
+            video.src = streamUrl;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
+        }
+    </script>
 
 </body>
 </html>
