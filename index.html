@@ -49,6 +49,7 @@
             background-color: black; outline: none;
         }
 
+        /* VIP Telegram Button Design */
         .telegram-btn-container {
             width: 95%; max-width: 900px;
             text-align: center;
@@ -87,8 +88,8 @@
         }
         .match-info p { margin: 0; font-size: 16px; color: #ccc; }
     </style>
-    <!-- .mpd links chalane ke liye Dash.js player library -->
-    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <!-- HLS.js Player Library (m3u8 chalane ke liye) -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
@@ -99,12 +100,12 @@
 
     <div class="video-container">
         <div class="iframe-wrapper">
-            <!-- Video Player -->
+            <!-- Asli Video Tag -->
             <video id="videoPlayer" controls autoplay></video>
         </div>
     </div>
 
-    <!-- Telegram Button -->
+    <!-- Aapka apna Telegram Button -->
     <div class="telegram-btn-container">
         <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
             <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
@@ -116,14 +117,26 @@
     </div>
 
     <script>
-        // Aapka naya JioTV .mpd link yahan add kar diya gaya hai
-        var streamUrl = "https://jiotvpllive.cdn.jio.com/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/index.mpd?__hdnea__=st=1785923758~exp=1785945358~acl=/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/*~hmac=e2911d45d29f28f1b95f0fc905ca6d3da37cabe6bf08bb979006c387c6d12a10"; 
+        // Proxy wala mast chalne wala m3u8 link yahan lag gaya hai
+        var streamUrl = "https://tv1.wapgotube.workers.dev/proxy/https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8"; 
         
         var video = document.getElementById('videoPlayer');
-        
-        // Dash.js initialization
-        var player = dashjs.MediaPlayer().create();
-        player.initialize(video, streamUrl, true);
+
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        }
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari browser ke liye
+            video.src = streamUrl;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
+        }
     </script>
 
 </body>
