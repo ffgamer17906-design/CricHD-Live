@@ -2,142 +2,161 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Crichd Live - Watch Live Match</title>
     <style>
-        body {
+        /* SCROLL PURI TARAH BLOCK KAR DIYA HAI */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            touch-action: none; 
+            overscroll-behavior: none; 
             font-family: Arial, sans-serif;
             background-color: #111;
             color: white;
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+        
         .header {
             width: 100%;
             background-color: #000;
-            padding: 15px 20px;
+            padding: 10px 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             border-bottom: 2px solid #ff3b30;
             box-sizing: border-box;
+            flex-shrink: 0;
+            z-index: 10;
         }
         .header h1 {
-            margin: 0; font-size: 28px; font-weight: 900;
+            margin: 0; font-size: 24px; font-weight: 900;
             color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
         }
         .header span { color: #ff3b30; }
-        .live-badge {
-            background-color: #ff3b30; color: white; padding: 4px 10px;
-            font-size: 12px; font-weight: bold; border-radius: 20px;
-            animation: blink 1.5s infinite; display: inline-block; margin-top: 5px;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
         
         .video-container {
-            width: 95%; max-width: 900px; margin: 30px auto 15px auto;
-            background-color: #000; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #333;
+            width: 100%; max-width: 900px; 
+            margin: auto; 
+            background-color: #000; 
+            position: relative;
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
         .iframe-wrapper {
             position: relative; padding-bottom: 56.25%; height: 0;
+            pointer-events: auto;
         }
-        .iframe-wrapper video {
+        .iframe-wrapper iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: black; outline: none;
+            border: none; background-color: black;
         }
 
-        /* VIP Telegram Button Design */
+        /* 🔥 WATERMARK CHHUPANE WALE BADE BOXES 🔥 */
+        .cover-box {
+            position: absolute;
+            background-color: #000; /* Pura Kaala Rang Piche Ki Cheez Chhupane Ke Liye */
+            color: #ff3b30;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            pointer-events: none; /* Click aar-paar jaane ke liye */
+            border: 2px solid #ff3b30;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0,0,0,1);
+        }
+
+        /* 1. Upar Left Wala Box (@ Logo ke liye) */
+        .top-left-logo {
+            top: 5px;
+            left: 5px;
+            width: 150px;  /* Isko aur bada karne ke liye number badhayein */
+            height: 40px;
+            font-size: 16px;
+        }
+
+        /* 2. Upar Right Wala Box (Dusre Watermark ke liye) */
+        .top-right-logo {
+            top: 5px;
+            right: 5px;
+            width: 220px; /* Isko aur bada karne ke liye number badhayein */
+            height: 50px;
+            font-size: 18px;
+        }
+
+        /* 3. Niche Scoreboard Chhupane Wala Bada Box */
+        .bottom-score-cover {
+            bottom: 10px;
+            left: 50%; /* Center mein rakhne ke liye */
+            transform: translateX(-50%);
+            width: 350px; /* Scoreboard jitna bada hai, utna bada number kar dein */
+            height: 60px; /* Box ki lambaai */
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+
         .telegram-btn-container {
-            width: 95%; max-width: 900px;
+            width: 100%; max-width: 900px;
             text-align: center;
-            margin-bottom: 25px;
+            padding: 15px 0;
+            flex-shrink: 0;
+            background-color: #111;
+            z-index: 10;
         }
         .telegram-btn {
             display: inline-block;
             background-color: #0088cc;
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 12px 25px;
+            font-size: 16px;
             font-weight: 900;
             border-radius: 50px;
             box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
-            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 2px solid #00aaff;
         }
-        .telegram-btn:hover {
-            background-color: #0077b5;
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.8);
-        }
-        .telegram-btn span {
-            font-size: 22px;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-
-        .match-info {
-            width: 95%; max-width: 900px; margin-bottom: 30px;
-            background: #1a1a1a; padding: 15px; border-radius: 8px;
-            text-align: center; border-left: 4px solid #ff3b30; box-sizing: border-box;
-        }
-        .match-info p { margin: 0; font-size: 16px; color: #ccc; }
     </style>
-    <!-- HLS.js Player Library (m3u8 chalane ke liye) -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
     <div class="header">
         <h1>🏏 Crichd <span>Live</span></h1>
-        <div class="live-badge">● LIVE NOW</div>
     </div>
 
     <div class="video-container">
         <div class="iframe-wrapper">
-            <!-- Asli Video Tag -->
-            <video id="videoPlayer" controls autoplay></video>
+            <!-- Asli Video Player -->
+            <iframe 
+                src="https://ro45-star-sports-2hd.pages.dev/" 
+                allow="autoplay; encrypted-media; fullscreen" 
+                scrolling="no"
+                allowfullscreen>
+            </iframe>
+            
+            <!-- 1. Left Side Wala Logo -->
+            <div class="cover-box top-left-logo">CRICHD</div>
+            
+            <!-- 2. Right Side Wala Logo -->
+            <div class="cover-box top-right-logo">CRICHD LIVE</div>
+
+            <!-- 3. Niche Scoreboard Wala Logo -->
+            <div class="cover-box bottom-score-cover">JOIN TELEGRAM</div>
+            
         </div>
     </div>
 
-    <!-- Aapka apna Telegram Button -->
     <div class="telegram-btn-container">
         <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
             <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
         </a>
     </div>
-
-    <div class="match-info">
-        <p>Agar video play nahi ho raha hai, toh apne page ko refresh karein.</p>
-    </div>
-
-    <script>
-        // Proxy wala mast chalne wala m3u8 link yahan lag gaya hai
-        var streamUrl = "https://tv1.wapgotube.workers.dev/proxy/https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8"; 
-        
-        var video = document.getElementById('videoPlayer');
-
-        if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.loadSource(streamUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
-            });
-        }
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Safari browser ke liye
-            video.src = streamUrl;
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
-            });
-        }
-    </script>
 
 </body>
 </html>
