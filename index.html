@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crichd Live - Watch Live Match</title>
+    <title>Crichd Live - Ultimate Match Hub</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
+            background-color: #0f0f0f;
             color: #ffffff;
             margin: 0;
             padding: 0;
@@ -19,173 +19,284 @@
         
         .header {
             width: 100%;
-            background-color: #1a1a1a;
+            background-color: #161616;
             padding: 15px 20px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
             border-bottom: 3px solid #ff3b30;
             box-sizing: border-box;
         }
         .header h1 {
-            margin: 0; font-size: 28px; font-weight: 900;
+            margin: 0; font-size: 22px; font-weight: 900;
             color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
         }
         .header span { color: #ff3b30; }
-        .live-badge {
-            background-color: #ff3b30; color: white; padding: 4px 12px;
-            font-size: 11px; font-weight: bold; border-radius: 20px;
-            animation: blink 1.5s infinite; display: inline-block; margin-top: 6px;
+
+        /* 🌍 Language Selector */
+        .lang-select {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
         }
-        @keyframes blink { 50% { opacity: 0.3; } }
-        
+
+        /* 🔴 Floating LIVE Logo */
+        .floating-live-logo {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(255, 59, 48, 0.95);
+            color: white;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 900;
+            border-radius: 30px;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.5);
+            animation: pulse-live 1.5s infinite;
+            text-transform: uppercase;
+        }
+        @keyframes pulse-live {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 📊 Live Score Widget */
+        .score-widget {
+            width: 95%; max-width: 950px;
+            background: linear-gradient(135deg, #1c1c1c, #262626);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 20px auto 0 auto;
+            box-sizing: border-box;
+            border: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .team-info { font-size: 15px; font-weight: bold; color: #fff; }
+        .match-status-badge { background: #ff3b30; color: white; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: bold; }
+        .score-details { font-size: 13px; color: #bbb; text-align: right; }
+
+        /* Video Container */
         .video-container {
             width: 95%; max-width: 950px; 
-            margin: 25px auto 10px auto; 
+            margin: 15px auto 10px auto; 
             background-color: #000; 
             border-radius: 12px;
             overflow: hidden; 
             box-shadow: 0 10px 35px rgba(0,0,0,0.9);
             border: 1px solid #333;
         }
-        
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Ratio */
-            height: 0;
-        }
-
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #player {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 16 / 9;
             background-color: black;
-            outline: none;
         }
 
-        .telegram-btn-container {
+        /* Action Buttons Bar */
+        .action-bar {
             width: 95%; max-width: 950px;
-            text-align: center;
-            margin: 15px 0 25px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px auto;
+            gap: 10px;
         }
-        .telegram-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #0088cc, #00aaff);
-            color: white;
-            text-decoration: none;
-            padding: 14px 30px;
-            font-size: 17px;
-            font-weight: 900;
-            border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .action-btn {
+            flex: 1;
             border: none;
-            transition: transform 0.2s;
-        }
-        .telegram-btn:hover {
-            transform: scale(1.03);
-        }
-
-        /* FAQ SECTION (Niche Scroll karne par dikhega) */
-        .faq-section {
-            width: 95%;
-            max-width: 950px;
-            background-color: #1a1a1a;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 40px;
-            box-sizing: border-box;
-            border: 1px solid #333;
-        }
-        .faq-section h3 {
-            color: #ff3b30;
-            margin-top: 0;
-            font-size: 20px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
-        }
-        .faq-item {
-            margin-bottom: 15px;
-        }
-        .faq-question {
-            font-weight: bold;
-            color: #ddd;
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-        .faq-answer {
-            color: #aaa;
+            padding: 12px 15px;
             font-size: 14px;
-            line-height: 1.5;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            text-transform: uppercase;
         }
+        .cheer-btn { background: linear-gradient(135deg, #ff3b30, #ff6b6b); }
+        .telegram-btn { background: linear-gradient(135deg, #0088cc, #00aaff); }
+        .whatsapp-btn { background: linear-gradient(135deg, #25d366, #128c7e); }
+
+        /* 📊 Sections Styling */
+        .poll-section, .news-section, .schedule-section, .faq-section {
+            width: 95%; max-width: 950px;
+            background-color: #161616;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 15px auto;
+            border: 1px solid #333;
+            box-sizing: border-box;
+        }
+        .section-title { color: #ff3b30; margin-top: 0; font-size: 16px; border-bottom: 2px solid #333; padding-bottom: 6px; }
+        .poll-options { display: flex; gap: 10px; margin-top: 10px; }
+        .poll-option-btn { flex: 1; background: #222; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .poll-option-btn:hover { background: #ff3b30; border-color: #ff3b30; }
+
+        /* News & Schedule Items */
+        .news-item, .schedule-item, .faq-item {
+            background: #1f1f1f;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #ccc;
+        }
+        .news-item span { color: #00aaff; font-weight: bold; display: block; margin-bottom: 2px; }
+        .faq-question { font-weight: bold; color: #ddd; margin-bottom: 3px; }
+        .faq-answer { color: #aaa; font-size: 12px; }
+
+        /* 💬 Live Chat Box */
+        .chat-container {
+            width: 95%; max-width: 950px;
+            background-color: #161616;
+            border-radius: 12px;
+            border: 1px solid #333;
+            margin: 15px auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 220px;
+        }
+        .chat-header { background-color: #202020; padding: 10px 15px; font-weight: bold; font-size: 13px; border-bottom: 1px solid #333; color: #ff3b30; }
+        .chat-messages { flex: 1; padding: 10px 15px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
+        .chat-msg { background-color: #262626; padding: 6px 10px; border-radius: 8px; width: fit-content; max-width: 80%; }
+        .chat-msg span { font-weight: bold; color: #00aaff; margin-right: 5px; }
+        .chat-input-box { display: flex; padding: 8px 12px; background-color: #202020; border-top: 1px solid #333; }
+        .chat-input-box input { flex: 1; background-color: #111; border: 1px solid #444; padding: 8px 12px; color: white; border-radius: 20px; outline: none; font-size: 13px; }
+        .chat-input-box button { background-color: #ff3b30; color: white; border: none; padding: 8px 16px; margin-left: 8px; border-radius: 20px; cursor: pointer; font-weight: bold; }
     </style>
-    <!-- HLS.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 </head>
 <body>
 
+    <div class="floating-live-logo">🔴 LIVE</div>
+
     <div class="header">
-        <h1>🏏 Crichd <span>Live</span></h1>
-        <div class="live-badge">● LIVE STREAMING</div>
+        <h1>🏏 Crichd <span>Live</span> Hub</h1>
+        <select class="lang-select">
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Urdu</option>
+            <option>Tamil</option>
+        </select>
     </div>
 
-    <!-- Video Player Box -->
-    <div class="video-container">
-        <div class="video-wrapper">
-            <video id="videoPlayer" controls autoplay playsinline></video>
+    <!-- Live Score Widget Bar -->
+    <div class="score-widget">
+        <div>
+            <span class="match-status-badge">LIVE</span>
+            <div class="team-info" style="margin-top: 4px;">IND vs AUS (1st T20)</div>
+        </div>
+        <div class="score-details">
+            <div>Score: 178/4 (18.2 Ov)</div>
+            <div style="font-size: 11px; color: #888;">CRR: 9.70 | Target: 185</div>
         </div>
     </div>
 
-    <!-- Telegram Button -->
-    <div class="telegram-btn-container">
-        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
-            <span>✈️</span> JOIN CRICHD LIVE TELEGRAM
-        </a>
+    <!-- Video Player -->
+    <div class="video-container">
+        <div id="player"></div>
+    </div>
+
+    <!-- Interactive Buttons Bar -->
+    <div class="action-bar">
+        <button class="action-btn cheer-btn" onclick="sendCheer()">❤️ <span id="cheerCount">230</span></button>
+        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="action-btn telegram-btn">✈️ Telegram</a>
+        <a href="https://api.whatsapp.com/send?text=Watch%20Live%20Match%20Here!" target="_blank" class="action-btn whatsapp-btn">💚 Share</a>
+    </div>
+
+    <!-- 📊 Match Poll Section -->
+    <div class="poll-section">
+        <h3 class="section-title">📊 Match Poll: Who will win today?</h3>
+        <div style="font-size: 13px; color: #aaa; margin-bottom: 8px;">Vote for your favorite team!</div>
+        <div class="poll-options">
+            <button class="poll-option-btn" onclick="alert('Voted for India!')">🇮🇳 India</button>
+            <button class="poll-option-btn" onclick="alert('Voted for Australia!')">🇦🇺 Australia</button>
+        </div>
+    </div>
+
+    <!-- 📰 Latest Cricket News -->
+    <div class="news-section">
+        <h3 class="section-title">📰 Latest Cricket News & Updates</h3>
+        <div class="news-item">
+            <span>🔥 Thrilling Chase Expected in Death Overs!</span>
+            Both teams are fighting hard in the final overs of the match. Stay tuned for updates.
+        </div>
+    </div>
+
+    <!-- 📅 Upcoming Matches Schedule -->
+    <div class="schedule-section">
+        <h3 class="section-title">📅 Upcoming Match Schedule</h3>
+        <div class="schedule-item">🕒 Tomorrow, 07:30 PM - ENG vs SA (2nd ODI)</div>
+        <div class="schedule-item">🕒 Day After, 02:30 PM - PAK vs NZ (3rd T20)</div>
+    </div>
+
+    <!-- Live Chat Box -->
+    <div class="chat-container">
+        <div class="chat-header">💬 Live Match Community Chat</div>
+        <div class="chat-messages" id="chatBox">
+            <div class="chat-msg"><span>Admin:</span> Match shuru ho chuka hai, sabhi enjoy karein! 🔥</div>
+            <div class="chat-msg"><span>Rohit:</span> Kya shandar six mara hai! 🚀</div>
+        </div>
+        <div class="chat-input-box">
+            <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
+            <button onclick="postMessage()">Send</button>
+        </div>
     </div>
 
     <!-- FAQ Section -->
     <div class="faq-section">
-        <h3>❓ Frequently Asked Questions (FAQ)</h3>
-        
+        <h3 class="section-title">❓ Help & FAQ</h3>
         <div class="faq-item">
-            <div class="faq-question">Q1: Match chal nahi raha ya black screen aa rahi hai toh kya karein?</div>
-            <div class="faq-answer">Ans: Ek baar page ko refresh karein ya apna internet connection check karein. Agar phir bhi na chale toh kuch der wait karein stream update ho rahi hogi.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Q2: Kya yeh website bilkul free hai match dekhne ke liye?</div>
-            <div class="faq-answer">Ans: Haan, yahan aap bina kisi charges ke live cricket matches ka anand le sakte hain.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Q3: Video ki quality ya volume kaise control karein?</div>
-            <div class="faq-answer">Ans: Video player ke niche diye gaye controls (Volume slider, Fullscreen button aur Settings icon) ka use karke aap aawaz aur quality badal sakte hain.</div>
+            <div class="faq-question">Q: Stream rukne par kya karein?</div>
+            <div class="faq-answer">A: Page ko refresh karein ya internet check karein.</div>
         </div>
     </div>
 
     <script>
-        // 🛠️ YAHAN APNI LINK PASTE KAREN (Bracket samet hata kar apni link daal dena):
-        var streamUrl = "https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8"; 
+        // 🛠️ YAHAN APNI LINK PASTE KAREN ([link pasting there] ki jagah):
+        var streamUrl = "[link pasting there]"; 
         
-        var video = document.getElementById('videoPlayer');
+        var player = new Clappr.Player({
+            source: streamUrl,
+            parentId: "#player",
+            width: '100%',
+            height: '100%',
+            autoPlay: true,
+            mute: false
+        });
 
-        if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.loadSource(streamUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(e => {
-                    console.log("Auto-play restricted by browser.");
-                });
-            });
+        let count = 230;
+        function sendCheer() {
+            count++;
+            document.getElementById('cheerCount').innerText = count;
         }
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = streamUrl;
-            video.addEventListener('loadedmetadata', function() {
-                video.play().catch(e => {});
-            });
+
+        function postMessage() {
+            var input = document.getElementById('msgInput');
+            var text = input.value.trim();
+            if(text !== "") {
+                var chatBox = document.getElementById('chatBox');
+                var newMsg = document.createElement('div');
+                newMsg.className = 'chat-msg';
+                newMsg.innerHTML = `<span>Viewer:</span> ${text}`;
+                chatBox.appendChild(newMsg);
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+        function handleEnter(e) {
+            if (e.key === 'Enter') { postMessage(); }
         }
     </script>
 
