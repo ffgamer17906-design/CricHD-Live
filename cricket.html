@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Live - Crichd Live</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #0f0f0f; color: #fff; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .header { width: 100%; background: #161616; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; border-bottom: 3px solid #ff3b30; flex-wrap: wrap; gap: 10px; }
+        .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; }
+        .header span { color: #ff3b30; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a { background: #222; color: #fff; padding: 6px 14px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: bold; border: 1px solid #444; }
+        .nav-links a.active { background: #ff3b30; border-color: #ff3b30; }
+        
+        .video-container { width: 95%; max-width: 950px; margin: 20px auto 10px auto; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid #333; }
+        video { width: 100%; aspect-ratio: 16/9; background: black; outline: none; }
+        
+        .action-bar { width: 95%; max-width: 950px; display: flex; justify-content: space-between; margin: 10px auto; gap: 10px; }
+        .action-btn { flex: 1; padding: 12px; font-size: 13px; font-weight: bold; border-radius: 30px; text-align: center; text-decoration: none; color: white; text-transform: uppercase; border: none; cursor: pointer; }
+        .cheer-btn { background: linear-gradient(135deg, #ff3b30, #ff6b6b); }
+        .tg-btn { background: linear-gradient(135deg, #0088cc, #00aaff); }
+        .fb-btn { background: linear-gradient(135deg, #1877f2, #3b5998); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>🏏 Cricket <span>Live</span></h1>
+        <div class="nav-links">
+            <a href="index.html">Football Match</a>
+            <a href="cricket.html" class="active">Cricket Match</a>
+        </div>
+    </div>
+
+    <div class="video-container">
+        <video id="video" controls autoplay playsinline></video>
+    </div>
+
+    <div class="action-bar">
+        <button class="action-btn cheer-btn" onclick="sendCheer()">❤️ CHEER (<span id="cheerCount">100</span>)</button>
+        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="action-btn tg-btn">✈️ Cric HD Live</a>
+        <a href="https://facebook.com/" target="_blank" class="action-btn fb-btn">📘 Cricket Sultan</a>
+    </div>
+
+    <script>
+        var videoSrc = "https://ttt.nayanasri2026.workers.dev/no/https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8";
+        var video = document.getElementById('video');
+        if (Hls.isSupported()) {
+            var hls = new Hls(); hls.loadSource(videoSrc); hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(e => {}));
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc; video.addEventListener('loadedmetadata', () => video.play().catch(e => {}));
+        }
+        let count = 100;
+        function sendCheer() { count++; document.getElementById('cheerCount').innerText = count; }
+    </script>
+</body>
+</html>
