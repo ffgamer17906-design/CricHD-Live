@@ -3,255 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crichd Live - Ultimate Match Stream</title>
+    <title>Premium Stream - Apple x Netflix UI</title>
+    <!-- Premium Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- HLS for Streaming -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(22, 27, 34, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-color: #ffffff;
-            --accent-color: #ff3b30;
-            --telegram-color: #0088cc;
+            --bg-base: #050505;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --accent: #ff2a2a;
+            --accent-glow: rgba(255, 42, 42, 0.4);
+            --radius: 24px;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-color);
-            background-image: radial-gradient(circle at top, #1a1f35 0%, #0b0f19 70%);
-            color: var(--text-color);
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center;
+            background-color: var(--bg-base);
+            background-image: radial-gradient(circle at 50% 0%, rgba(30, 10, 15, 1) 0%, var(--bg-base) 70%);
+            color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Sticky Header */
+        /* 📢 Breaking News Ticker */
+        .ticker-wrap {
+            background: #ff2a2a; color: white; padding: 4px 0; font-size: 11px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            overflow: hidden; white-space: nowrap;
+        }
+        .ticker-move { display: inline-block; animation: ticker 20s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* ✨ Glass Header */
         .header {
-            position: sticky; top: 0; z-index: 1000;
-            width: 100%; background: rgba(11, 15, 25, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 12px 25px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-sizing: border-box; border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
         }
-        .header h1 {
-            margin: 0; font-size: 20px; font-weight: 900;
-            letter-spacing: 1px; text-transform: uppercase;
-        }
-        .header span { color: var(--accent-color); }
+        .logo { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .badge-verified { background: #1da1f2; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+        .header-controls { display: flex; gap: 15px; align-items: center; }
+        .live-clock { font-size: 13px; font-weight: 600; color: var(--text-muted); }
 
-        .header-actions { display: flex; gap: 10px; align-items: center; }
+        /* 🧹 Clean Mode Button */
+        .btn-clean {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-clean:hover { background: rgba(255,255,255,0.1); }
+
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 5%; display: flex; flex-direction: column; gap: 25px; transition: 0.5s; }
+
+        /* 🎬 Netflix-Style Player */
+        .player-wrapper {
+            background: #000; border-radius: var(--radius);
+            border: 1px solid var(--glass-border); overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px var(--accent-glow);
+            position: relative;
+        }
+        video { width: 100%; aspect-ratio: 16/9; display: block; outline: none; }
         
-        /* Status Badge */
-        .live-badge {
-            background: rgba(46, 204, 113, 0.2); color: #2ecc71;
-            border: 1px solid #2ecc71; padding: 4px 10px;
-            border-radius: 20px; font-size: 11px; font-weight: bold;
-            display: flex; align-items: center; gap: 5px;
+        .live-status {
+            position: absolute; top: 15px; left: 15px;
+            background: rgba(255, 42, 42, 0.9); color: white;
+            padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 800;
+            display: flex; align-items: center; gap: 6px; text-transform: uppercase;
         }
-        .live-dot { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .btn-vip {
-            background: linear-gradient(135deg, #ff9800, #ffc107);
-            color: #000; text-decoration: none; padding: 6px 14px;
-            border-radius: 20px; font-weight: bold; font-size: 12px;
-            text-transform: uppercase; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+        /* Player Controls Bar */
+        .player-controls {
+            display: flex; justify-content: space-between; padding: 15px;
+            background: var(--glass-bg); border-top: 1px solid var(--glass-border);
         }
+        .control-btn {
+            background: transparent; border: 1px solid var(--glass-border);
+            color: white; padding: 8px 15px; border-radius: 12px;
+            cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;
+        }
+        .control-btn:hover { background: rgba(255,255,255,0.1); }
+        .primary-btn { background: var(--accent); border-color: var(--accent); }
 
-        /* Main Wrapper */
-        .main-container {
-            width: 95%; max-width: 950px;
-            margin: 20px auto; display: flex; flex-direction: column; gap: 20px;
+        /* 😊 Match Mood Indicator */
+        .mood-board {
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); border-radius: 16px;
+            padding: 20px; display: flex; justify-content: space-around; align-items: center;
         }
+        .mood-item { text-align: center; cursor: pointer; transition: 0.2s; }
+        .mood-item:hover { transform: scale(1.1); }
+        .mood-emoji { font-size: 28px; }
+        .mood-count { font-size: 12px; color: var(--text-muted); margin-top: 5px; font-weight: 600; }
 
-        /* Video Glassmorphism Container */
-        .video-wrapper {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-        video {
-            width: 100%; aspect-ratio: 16/9; background: #000; outline: none; display: block;
-        }
-
-        /* Action Buttons Bar */
-        .action-bar {
-            display: flex; gap: 10px; flex-wrap: wrap;
-        }
-        .action-btn {
-            flex: 1; min-width: 140px; padding: 12px;
-            font-size: 13px; font-weight: bold; border-radius: 25px;
-            text-align: center; text-decoration: none; color: white;
-            border: none; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-        .action-btn:hover { transform: translateY(-2px); }
-        .cheer-btn { background: linear-gradient(135deg, var(--accent-color), #ff6b6b); }
-        .telegram-btn { background: linear-gradient(135deg, var(--telegram-color), #00aaff); }
-        .share-btn { background: linear-gradient(135deg, #8e44ad, #9b59b6); }
-
-        /* Ad Banner Space */
-        .ad-space {
-            background: rgba(255,255,255,0.03); border: 1px dashed var(--border-color);
-            padding: 15px; text-align: center; border-radius: 12px; color: #777; font-size: 12px;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* Match Info & FAQ Section */
-        .info-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-        }
-        @media(max-width: 768px) { .info-grid { grid-template-columns: 1fr; } }
-
-        .card-box {
-            background: var(--card-bg); backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;
-        }
-        .card-box h3 { margin-top: 0; color: var(--accent-color); font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        /* 🏆 Glassmorphism Match Cards (Horizontal Scroll) */
+        .section-title { font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .scroll-cards { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .scroll-cards::-webkit-scrollbar { display: none; }
         
-        .faq-item { margin-bottom: 12px; }
-        .faq-q { font-weight: bold; font-size: 13px; color: #ff9800; }
-        .faq-a { font-size: 12px; color: #aaa; margin-top: 3px; }
-
-        /* Live Chat */
-        .chat-container {
-            background: var(--card-bg); backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color); border-radius: 12px;
-            display: flex; flex-direction: column; height: 220px; overflow: hidden;
+        .match-card {
+            min-width: 260px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 15px; transition: 0.3s; position: relative; overflow: hidden;
         }
-        .chat-messages { flex: 1; padding: 10px 15px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
-        .chat-msg { background: rgba(255,255,255,0.05); padding: 6px 10px; border-radius: 8px; width: fit-content; max-width: 85%; }
-        .chat-msg span { font-weight: bold; color: #00aaff; margin-right: 5px; }
-        .chat-input-box { display: flex; padding: 8px 12px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border-color); }
-        .chat-input-box input { flex: 1; background: #111; border: 1px solid var(--border-color); padding: 8px 12px; color: white; border-radius: 20px; outline: none; font-size: 13px; }
-        .chat-input-box button { background: var(--accent-color); color: white; border: none; padding: 8px 16px; margin-left: 8px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .match-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+        .match-teams { font-size: 16px; font-weight: 800; margin: 10px 0; }
+        .match-time { font-size: 12px; color: var(--accent); font-weight: 600; }
+
+        /* 📱 Bottom Navigation (Mobile) */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; width: 100%;
+            background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border); z-index: 100;
+            padding: 15px 20px; justify-content: space-between;
+        }
+        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 20px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-item span { font-size: 10px; font-weight: 600; }
+        .nav-active { color: white; }
+
+        /* 📌 Floating Telegram Button */
+        .float-tg {
+            position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px;
+            background: #0088cc; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; text-decoration: none; box-shadow: 0 10px 25px rgba(0,136,204,0.5); z-index: 99; transition: 0.3s;
+        }
+        .float-tg:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .float-tg { bottom: 85px; } /* Above mobile nav */
+        }
+
+        /* 🧹 Clean Mode Logic */
+        body.clean-mode .hide-on-clean { display: none !important; }
+        body.clean-mode .container { margin-top: 5px; }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
-    <!-- Sticky Header -->
+    <!-- Ticker -->
+    <div class="ticker-wrap hide-on-clean">
+        <div class="ticker-move">🔥 BREAKING: Final Match Streaming LIVE in HD • Enjoy Ad-Free Premium Interface • Join Telegram for Updates 🚀</div>
+    </div>
+
+    <!-- Apple-Style Header -->
     <div class="header">
-        <h1>🏏 Crichd <span>Live</span></h1>
-        <div class="header-actions">
-            <div class="live-badge"><div class="live-dot"></div> LIVE</div>
-            <a href="https://crichdlive.in/" target="_blank" class="btn-vip">Official Site</a>
+        <div class="logo">🏏 Stream<span style="color:var(--accent)">X</span> <span class="badge-verified">✔ PRO</span></div>
+        <div class="header-controls">
+            <div class="live-clock" id="clock">00:00:00</div>
+            <button class="btn-clean" onclick="toggleCleanMode()">🧹 Clean Mode</button>
         </div>
     </div>
 
-    <div class="main-container">
-
-        <!-- Top Ad Space -->
-        <div class="ad-space">📢 Sponsor / Ad Space (728x90)</div>
-
+    <div class="container" id="mainContainer">
+        
         <!-- Video Player -->
-        <div class="video-wrapper">
+        <div class="player-wrapper">
+            <div class="live-status"><div class="dot"></div> LIVE</div>
             <video id="video" controls autoplay playsinline></video>
-        </div>
-
-        <!-- Action Bar -->
-        <div class="action-bar">
-            <button class="action-btn cheer-btn" onclick="sendCheer()">❤️ CHEER (<span id="cheerCount">100</span>)</button>
-            <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="action-btn telegram-btn">✈️ Join Telegram</a>
-            <button class="action-btn share-btn" onclick="shareMatch()">🔗 Share Link</button>
-        </div>
-
-        <!-- Info & FAQ Grid -->
-        <div class="info-grid">
-            <div class="card-box">
-                <h3>📌 Match Information</h3>
-                <p style="font-size: 13px; color: #ccc; margin: 5px 0;"><b>Status:</b> Streaming Live</p>
-                <p style="font-size: 13px; color: #ccc; margin: 5px 0;"><b>Quality:</b> HD (Auto-Reconnect Enabled)</p>
-                <p style="font-size: 13px; color: #ccc; margin: 5px 0;"><b>Channels:</b> Cricket Sultan & Cric HD Live</p>
-            </div>
-            <div class="card-box">
-                <h3>❓ Quick FAQ</h3>
-                <div class="faq-item">
-                    <div class="faq-q">Q. Video nahi chal rahi toh kya karein?</div>
-                    <div class="faq-a">A. Page ko refresh karein ya Telegram join karein.</div>
+            
+            <div class="player-controls">
+                <button class="control-btn" onclick="video.requestPictureInPicture()">📺 Mini Player (PiP)</button>
+                <div style="display: flex; gap: 10px;">
+                    <div class="control-btn" style="border:none;">👁️ <span id="viewers">1,245</span> Watching</div>
+                    <button class="control-btn primary-btn" onclick="fireConfetti()">🎉 Celebrate</button>
                 </div>
             </div>
         </div>
 
-        <!-- Live Chat Box -->
-        <div class="chat-container">
-            <div style="background: rgba(0,0,0,0.3); padding: 8px 15px; font-weight: bold; font-size: 12px; border-bottom: 1px solid var(--border-color); color: var(--accent-color);">💬 Live Match Chat</div>
-            <div class="chat-messages" id="chatBox">
-                <div class="chat-msg"><span>Admin:</span> Welcome to the stream! Enjoy the match. 🔥</div>
-            </div>
-            <div class="chat-input-box">
-                <input type="text" id="msgInput" placeholder="Type message..." onkeypress="handleEnter(event)">
-                <button onclick="postMessage()">Send</button>
+        <!-- Mood Indicator (hide on clean) -->
+        <div class="mood-board hide-on-clean">
+            <div class="mood-item" onclick="addMood('fire')"><div class="mood-emoji">🔥</div><div class="mood-count" id="fireCount">842</div></div>
+            <div class="mood-item" onclick="addMood('love')"><div class="mood-emoji">😍</div><div class="mood-count" id="loveCount">520</div></div>
+            <div class="mood-item" onclick="addMood('shock')"><div class="mood-emoji">🤯</div><div class="mood-count" id="shockCount">125</div></div>
+            <div class="mood-item" onclick="addMood('sad')"><div class="mood-emoji">😟</div><div class="mood-count" id="sadCount">12</div></div>
+        </div>
+
+        <!-- Hot Matches (hide on clean) -->
+        <div class="hide-on-clean">
+            <h2 class="section-title">🔥 Hot Matches</h2>
+            <div class="scroll-cards">
+                <div class="match-card">
+                    <div style="font-size: 10px; color: #aaa;">World Cup 2026</div>
+                    <div class="match-teams">IND vs AUS</div>
+                    <div class="match-time">🟢 LIVE NOW</div>
+                </div>
+                <div class="match-card">
+                    <div style="font-size: 10px; color: #aaa;">Premier League</div>
+                    <div class="match-teams">ENG vs NZ</div>
+                    <div class="match-time">🕒 Starts in 2h</div>
+                </div>
+                <div class="match-card">
+                    <div style="font-size: 10px; color: #aaa;">T20 Series</div>
+                    <div class="match-teams">PAK vs SA</div>
+                    <div class="match-time">📅 Tomorrow</div>
+                </div>
             </div>
         </div>
 
-        <!-- Bottom Ad Space -->
-        <div class="ad-space">📢 AdSense Banner Space</div>
+        <!-- Legal/Footer Links (hide on clean) -->
+        <div class="hide-on-clean" style="text-align: center; border-top: 1px solid var(--glass-border); padding: 30px 0; margin-top: 20px;">
+            <p style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <a href="#" style="color: #aaa; text-decoration: none;">FAQ</a>
+                <a href="#" style="color: #aaa; text-decoration: none;">Privacy Policy</a>
+                <a href="#" style="color: #aaa; text-decoration: none;">DMCA</a>
+                <a href="#" style="color: #aaa; text-decoration: none;">About</a>
+            </p>
+            <p style="font-size: 11px; color: #666; margin-top: 10px;">© 2026 StreamX Premium. All rights reserved.</p>
+        </div>
 
     </div>
 
+    <!-- Floating Telegram -->
+    <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="float-tg hide-on-clean">✈️</a>
+
+    <!-- Mobile Nav -->
+    <div class="bottom-nav hide-on-clean">
+        <a href="#" class="nav-item nav-active">🏠<span>Home</span></a>
+        <a href="#" class="nav-item">📺<span>Live</span></a>
+        <a href="#" class="nav-item">🏆<span>Matches</span></a>
+        <a href="#" class="nav-item">⚙️<span>Settings</span></a>
+    </div>
+
     <script>
+        // 1. Streaming HLS Setup with Auto-Retry
         var videoSrc = "https://ttt.nayanasri2026.workers.dev/no/https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8";
         var video = document.getElementById('video');
-
         if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(e => {}));
+            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(()=>{}));
             
-            // Auto Reconnect mechanism if stream drops
+            // Auto Reconnect Logic
             hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
-                    switch(data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-                            console.log("Network error, trying to recover...");
-                            hls.startLoad();
-                            break;
-                        case Hls.ErrorTypes.MEDIA_ERROR:
-                            console.log("Media error, trying to recover...");
-                            hls.recoverMediaError();
-                            break;
-                        default:
-                            hls.destroy();
-                            break;
-                    }
+                    if(data.type === Hls.ErrorTypes.NETWORK_ERROR) { hls.startLoad(); }
+                    else if(data.type === Hls.ErrorTypes.MEDIA_ERROR) { hls.recoverMediaError(); }
                 }
             });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = videoSrc;
-            video.addEventListener('loadedmetadata', () => video.play().catch(e => {}));
+            video.addEventListener('loadedmetadata', () => video.play());
         }
 
-        let count = 100;
-        function sendCheer() {
-            count++;
-            document.getElementById('cheerCount').innerText = count;
+        // 2. Live Clock
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', { hour12: false });
+        }, 1000);
+
+        // 3. Fake Live Viewer Counter
+        setInterval(() => {
+            let current = parseInt(document.getElementById('viewers').innerText.replace(',', ''));
+            let updated = Math.max(1200, current + (Math.floor(Math.random() * 11) - 5));
+            document.getElementById('viewers').innerText = updated.toLocaleString();
+        }, 3000);
+
+        // 4. Clean Mode Toggle 🧹
+        function toggleCleanMode() {
+            document.body.classList.toggle('clean-mode');
         }
 
-        function shareMatch() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Match link copied to clipboard!");
+        // 5. Match Mood Indicator JS 😊
+        let moods = { fire: 842, love: 520, shock: 125, sad: 12 };
+        function addMood(type) {
+            moods[type]++;
+            document.getElementById(type + 'Count').innerText = moods[type];
         }
 
-        function postMessage() {
-            var input = document.getElementById('msgInput');
-            var text = input.value.trim();
-            if(text !== "") {
-                var chatBox = document.getElementById('chatBox');
-                var newMsg = document.createElement('div');
-                newMsg.className = 'chat-msg';
-                newMsg.innerHTML = `<span>Viewer:</span> ${text}`;
-                chatBox.appendChild(newMsg);
-                input.value = "";
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        }
-        function handleEnter(e) {
-            if (e.key === 'Enter') { postMessage(); }
+        // 6. Confetti Animation 🎉
+        function fireConfetti() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff2a2a', '#ffffff', '#0088cc'] });
         }
     </script>
 </body>
