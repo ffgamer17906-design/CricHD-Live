@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Stream - Apple x Netflix UI</title>
+    <title>Cric HD Live - Premium Streaming</title>
     <!-- Premium Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- HLS for Streaming -->
@@ -50,7 +50,7 @@
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
         }
-        .logo { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .badge-verified { background: #1da1f2; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
         .header-controls { display: flex; gap: 15px; align-items: center; }
         .live-clock { font-size: 13px; font-weight: 600; color: var(--text-muted); }
@@ -87,6 +87,7 @@
         .player-controls {
             display: flex; justify-content: space-between; padding: 15px;
             background: var(--glass-bg); border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap; gap: 10px;
         }
         .control-btn {
             background: transparent; border: 1px solid var(--glass-border);
@@ -106,19 +107,6 @@
         .mood-item:hover { transform: scale(1.1); }
         .mood-emoji { font-size: 28px; }
         .mood-count { font-size: 12px; color: var(--text-muted); margin-top: 5px; font-weight: 600; }
-
-        /* 🏆 Glassmorphism Match Cards (Horizontal Scroll) */
-        .section-title { font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .scroll-cards { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-        .scroll-cards::-webkit-scrollbar { display: none; }
-        
-        .match-card {
-            min-width: 260px; background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 15px; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .match-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
-        .match-teams { font-size: 16px; font-weight: 800; margin: 10px 0; }
-        .match-time { font-size: 12px; color: var(--accent); font-weight: 600; }
 
         /* 📱 Bottom Navigation (Mobile) */
         .bottom-nav {
@@ -141,7 +129,7 @@
 
         @media (max-width: 768px) {
             .bottom-nav { display: flex; }
-            .float-tg { bottom: 85px; } /* Above mobile nav */
+            .float-tg { bottom: 85px; }
         }
 
         /* 🧹 Clean Mode Logic */
@@ -153,12 +141,12 @@
 
     <!-- Ticker -->
     <div class="ticker-wrap hide-on-clean">
-        <div class="ticker-move">🔥 BREAKING: Final Match Streaming LIVE in HD • Enjoy Ad-Free Premium Interface • Join Telegram for Updates 🚀</div>
+        <div class="ticker-move">🔥 CRIC HD LIVE: Enjoy Ad-Free Premium Interface • Join Telegram for Instant Match Updates 🚀</div>
     </div>
 
     <!-- Apple-Style Header -->
     <div class="header">
-        <div class="logo">🏏 Stream<span style="color:var(--accent)">X</span> <span class="badge-verified">✔ PRO</span></div>
+        <div class="logo">🏏 Cric HD <span style="color:var(--accent)">Live</span> <span class="badge-verified">✔ PRO</span></div>
         <div class="header-controls">
             <div class="live-clock" id="clock">00:00:00</div>
             <button class="btn-clean" onclick="toggleCleanMode()">🧹 Clean Mode</button>
@@ -174,14 +162,14 @@
             
             <div class="player-controls">
                 <button class="control-btn" onclick="video.requestPictureInPicture()">📺 Mini Player (PiP)</button>
-                <div style="display: flex; gap: 10px;">
-                    <div class="control-btn" style="border:none;">👁️ <span id="viewers">1,245</span> Watching</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div class="control-btn" style="border:none; cursor:default;">👁️ <span id="viewers">1,245</span> Watching</div>
                     <button class="control-btn primary-btn" onclick="fireConfetti()">🎉 Celebrate</button>
                 </div>
             </div>
         </div>
 
-        <!-- Mood Indicator (hide on clean) -->
+        <!-- Mood Indicator -->
         <div class="mood-board hide-on-clean">
             <div class="mood-item" onclick="addMood('fire')"><div class="mood-emoji">🔥</div><div class="mood-count" id="fireCount">842</div></div>
             <div class="mood-item" onclick="addMood('love')"><div class="mood-emoji">😍</div><div class="mood-count" id="loveCount">520</div></div>
@@ -189,37 +177,15 @@
             <div class="mood-item" onclick="addMood('sad')"><div class="mood-emoji">😟</div><div class="mood-count" id="sadCount">12</div></div>
         </div>
 
-        <!-- Hot Matches (hide on clean) -->
-        <div class="hide-on-clean">
-            <h2 class="section-title">🔥 Hot Matches</h2>
-            <div class="scroll-cards">
-                <div class="match-card">
-                    <div style="font-size: 10px; color: #aaa;">World Cup 2026</div>
-                    <div class="match-teams">IND vs AUS</div>
-                    <div class="match-time">🟢 LIVE NOW</div>
-                </div>
-                <div class="match-card">
-                    <div style="font-size: 10px; color: #aaa;">Premier League</div>
-                    <div class="match-teams">ENG vs NZ</div>
-                    <div class="match-time">🕒 Starts in 2h</div>
-                </div>
-                <div class="match-card">
-                    <div style="font-size: 10px; color: #aaa;">T20 Series</div>
-                    <div class="match-teams">PAK vs SA</div>
-                    <div class="match-time">📅 Tomorrow</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Legal/Footer Links (hide on clean) -->
-        <div class="hide-on-clean" style="text-align: center; border-top: 1px solid var(--glass-border); padding: 30px 0; margin-top: 20px;">
+        <!-- Legal/Footer Links -->
+        <div class="hide-on-clean" style="text-align: center; border-top: 1px solid var(--glass-border); padding: 30px 0; margin-top: 10px;">
             <p style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                 <a href="#" style="color: #aaa; text-decoration: none;">FAQ</a>
                 <a href="#" style="color: #aaa; text-decoration: none;">Privacy Policy</a>
                 <a href="#" style="color: #aaa; text-decoration: none;">DMCA</a>
                 <a href="#" style="color: #aaa; text-decoration: none;">About</a>
             </p>
-            <p style="font-size: 11px; color: #666; margin-top: 10px;">© 2026 StreamX Premium. All rights reserved.</p>
+            <p style="font-size: 11px; color: #666; margin-top: 10px;">© 2026 Cric HD Live. All rights reserved.</p>
         </div>
 
     </div>
@@ -236,7 +202,6 @@
     </div>
 
     <script>
-        // 1. Streaming HLS Setup with Auto-Retry
         var videoSrc = "https://ttt.nayanasri2026.workers.dev/no/https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8";
         var video = document.getElementById('video');
         if (Hls.isSupported()) {
@@ -245,7 +210,6 @@
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(()=>{}));
             
-            // Auto Reconnect Logic
             hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
                     if(data.type === Hls.ErrorTypes.NETWORK_ERROR) { hls.startLoad(); }
@@ -257,34 +221,31 @@
             video.addEventListener('loadedmetadata', () => video.play());
         }
 
-        // 2. Live Clock
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', { hour12: false });
         }, 1000);
 
-        // 3. Fake Live Viewer Counter
         setInterval(() => {
             let current = parseInt(document.getElementById('viewers').innerText.replace(',', ''));
             let updated = Math.max(1200, current + (Math.floor(Math.random() * 11) - 5));
             document.getElementById('viewers').innerText = updated.toLocaleString();
         }, 3000);
 
-        // 4. Clean Mode Toggle 🧹
         function toggleCleanMode() {
             document.body.classList.toggle('clean-mode');
         }
 
-        // 5. Match Mood Indicator JS 😊
         let moods = { fire: 842, love: 520, shock: 125, sad: 12 };
         function addMood(type) {
             moods[type]++;
             document.getElementById(type + 'Count').innerText = moods[type];
         }
 
-        // 6. Confetti Animation 🎉
         function fireConfetti() {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff2a2a', '#ffffff', '#0088cc'] });
         }
     </script>
 </body>
+</html>
+
 </html>
