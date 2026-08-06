@@ -20,17 +20,39 @@
         .header {
             width: 100%;
             background-color: #161616;
-            padding: 15px 20px;
-            text-align: center;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
             border-bottom: 3px solid #ff3b30;
             box-sizing: border-box;
         }
         .header h1 {
-            margin: 0; font-size: 24px; font-weight: 900;
+            margin: 0; font-size: 22px; font-weight: 900;
             color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
         }
         .header span { color: #ff3b30; }
+
+        /* ⭐ Official Site Top Button Style */
+        .vip-site-logo {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9800, #ffc107);
+            color: #000;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 13px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.5);
+            transition: transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .vip-site-logo:hover {
+            transform: scale(1.05);
+        }
 
         /* 🔴 Floating LIVE Logo */
         .floating-live-logo {
@@ -84,7 +106,7 @@
         .action-btn {
             flex: 1;
             border: none;
-            padding: 12px 15px;
+            padding: 12px 10px;
             font-size: 14px;
             font-weight: bold;
             border-radius: 30px;
@@ -124,8 +146,12 @@
 
     <div class="floating-live-logo">🔴 LIVE</div>
 
+    <!-- Header with Official Website Button on Top Right -->
     <div class="header">
         <h1>🏏 Crichd <span>Live</span></h1>
+        <a href="https://crichdlive.in/" target="_blank" class="vip-site-logo">
+            🌐 &nbsp; CRICHDLIVE.IN
+        </a>
     </div>
 
     <!-- Video Player Container -->
@@ -143,7 +169,7 @@
     <div class="chat-container">
         <div class="chat-header">💬 Live Match Chat</div>
         <div class="chat-messages" id="chatBox">
-            <div class="chat-msg"><span>Admin:</span> Nayi link update ho chuki hai, enjoy! 🔥</div>
+            <div class="chat-msg"><span>Admin:</span> Website link top par set ho chuki hai! 🔥</div>
         </div>
         <div class="chat-input-box">
             <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
@@ -152,8 +178,7 @@
     </div>
 
     <script>
-        // Aapki nayi .m3u8 link yahan set hai:
-        var videoSrc = "https://s3.itcnbd.live/channel/2929059f34d114ca.m3u8";
+        var videoSrc = "https://tv1.wapgotube.workers.dev/proxy/https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8";
         var video = document.getElementById('video');
 
         if (Hls.isSupported()) {
@@ -196,4 +221,4 @@
     </script>
 
 </body>
-</html>
+</html> 
