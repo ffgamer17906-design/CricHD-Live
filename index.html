@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crichd Live - Ultimate Match Hub</title>
+    <title>Crichd Live - Watch Live Match</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,30 +21,16 @@
             width: 100%;
             background-color: #161616;
             padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
             border-bottom: 3px solid #ff3b30;
             box-sizing: border-box;
         }
         .header h1 {
-            margin: 0; font-size: 22px; font-weight: 900;
+            margin: 0; font-size: 24px; font-weight: 900;
             color: #ffffff; letter-spacing: 1px; text-transform: uppercase;
         }
         .header span { color: #ff3b30; }
-
-        /* 🌍 Language Selector */
-        .lang-select {
-            background-color: #222;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            outline: none;
-            cursor: pointer;
-        }
 
         /* 🔴 Floating LIVE Logo */
         .floating-live-logo {
@@ -68,37 +54,22 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* 📊 Live Score Widget */
-        .score-widget {
-            width: 95%; max-width: 950px;
-            background: linear-gradient(135deg, #1c1c1c, #262626);
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin: 20px auto 0 auto;
-            box-sizing: border-box;
-            border: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .team-info { font-size: 15px; font-weight: bold; color: #fff; }
-        .match-status-badge { background: #ff3b30; color: white; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: bold; }
-        .score-details { font-size: 13px; color: #bbb; text-align: right; }
-
         /* Video Container */
         .video-container {
             width: 95%; max-width: 950px; 
-            margin: 15px auto 10px auto; 
+            margin: 20px auto 10px auto; 
             background-color: #000; 
             border-radius: 12px;
             overflow: hidden; 
             box-shadow: 0 10px 35px rgba(0,0,0,0.9);
             border: 1px solid #333;
         }
-        #player {
+        
+        video {
             width: 100%;
             aspect-ratio: 16 / 9;
             background-color: black;
+            outline: none;
         }
 
         /* Action Buttons Bar */
@@ -125,35 +96,6 @@
         }
         .cheer-btn { background: linear-gradient(135deg, #ff3b30, #ff6b6b); }
         .telegram-btn { background: linear-gradient(135deg, #0088cc, #00aaff); }
-        .whatsapp-btn { background: linear-gradient(135deg, #25d366, #128c7e); }
-
-        /* 📊 Sections Styling */
-        .poll-section, .news-section, .schedule-section, .faq-section {
-            width: 95%; max-width: 950px;
-            background-color: #161616;
-            border-radius: 12px;
-            padding: 18px;
-            margin: 15px auto;
-            border: 1px solid #333;
-            box-sizing: border-box;
-        }
-        .section-title { color: #ff3b30; margin-top: 0; font-size: 16px; border-bottom: 2px solid #333; padding-bottom: 6px; }
-        .poll-options { display: flex; gap: 10px; margin-top: 10px; }
-        .poll-option-btn { flex: 1; background: #222; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .poll-option-btn:hover { background: #ff3b30; border-color: #ff3b30; }
-
-        /* News & Schedule Items */
-        .news-item, .schedule-item, .faq-item {
-            background: #1f1f1f;
-            padding: 10px 14px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: #ccc;
-        }
-        .news-item span { color: #00aaff; font-weight: bold; display: block; margin-bottom: 2px; }
-        .faq-question { font-weight: bold; color: #ddd; margin-bottom: 3px; }
-        .faq-answer { color: #aaa; font-size: 12px; }
 
         /* 💬 Live Chat Box */
         .chat-container {
@@ -161,11 +103,11 @@
             background-color: #161616;
             border-radius: 12px;
             border: 1px solid #333;
-            margin: 15px auto;
+            margin: 15px auto 30px auto;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 220px;
+            height: 250px;
         }
         .chat-header { background-color: #202020; padding: 10px 15px; font-weight: bold; font-size: 13px; border-bottom: 1px solid #333; color: #ff3b30; }
         .chat-messages { flex: 1; padding: 10px 15px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
@@ -175,78 +117,33 @@
         .chat-input-box input { flex: 1; background-color: #111; border: 1px solid #444; padding: 8px 12px; color: white; border-radius: 20px; outline: none; font-size: 13px; }
         .chat-input-box button { background-color: #ff3b30; color: white; border: none; padding: 8px 16px; margin-left: 8px; border-radius: 20px; cursor: pointer; font-weight: bold; }
     </style>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <!-- HLS.js Library for smooth .m3u8 playback -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
     <div class="floating-live-logo">🔴 LIVE</div>
 
     <div class="header">
-        <h1>🏏 Crichd <span>Live</span> Hub</h1>
-        <select class="lang-select">
-            <option>English</option>
-            <option>Hindi</option>
-            <option>Urdu</option>
-            <option>Tamil</option>
-        </select>
+        <h1>🏏 Crichd <span>Live</span></h1>
     </div>
 
-    <!-- Live Score Widget Bar -->
-    <div class="score-widget">
-        <div>
-            <span class="match-status-badge">LIVE</span>
-            <div class="team-info" style="margin-top: 4px;">IND vs AUS (1st T20)</div>
-        </div>
-        <div class="score-details">
-            <div>Score: 178/4 (18.2 Ov)</div>
-            <div style="font-size: 11px; color: #888;">CRR: 9.70 | Target: 185</div>
-        </div>
-    </div>
-
-    <!-- Video Player -->
+    <!-- Video Player Container -->
     <div class="video-container">
-        <div id="player"></div>
+        <video id="video" controls autoplay playsinline></video>
     </div>
 
     <!-- Interactive Buttons Bar -->
     <div class="action-bar">
-        <button class="action-btn cheer-btn" onclick="sendCheer()">❤️ <span id="cheerCount">230</span></button>
-        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="action-btn telegram-btn">✈️ Telegram</a>
-        <a href="https://api.whatsapp.com/send?text=Watch%20Live%20Match%20Here!" target="_blank" class="action-btn whatsapp-btn">💚 Share</a>
-    </div>
-
-    <!-- 📊 Match Poll Section -->
-    <div class="poll-section">
-        <h3 class="section-title">📊 Match Poll: Who will win today?</h3>
-        <div style="font-size: 13px; color: #aaa; margin-bottom: 8px;">Vote for your favorite team!</div>
-        <div class="poll-options">
-            <button class="poll-option-btn" onclick="alert('Voted for India!')">🇮🇳 India</button>
-            <button class="poll-option-btn" onclick="alert('Voted for Australia!')">🇦🇺 Australia</button>
-        </div>
-    </div>
-
-    <!-- 📰 Latest Cricket News -->
-    <div class="news-section">
-        <h3 class="section-title">📰 Latest Cricket News & Updates</h3>
-        <div class="news-item">
-            <span>🔥 Thrilling Chase Expected in Death Overs!</span>
-            Both teams are fighting hard in the final overs of the match. Stay tuned for updates.
-        </div>
-    </div>
-
-    <!-- 📅 Upcoming Matches Schedule -->
-    <div class="schedule-section">
-        <h3 class="section-title">📅 Upcoming Match Schedule</h3>
-        <div class="schedule-item">🕒 Tomorrow, 07:30 PM - ENG vs SA (2nd ODI)</div>
-        <div class="schedule-item">🕒 Day After, 02:30 PM - PAK vs NZ (3rd T20)</div>
+        <button class="action-btn cheer-btn" onclick="sendCheer()">❤️ CHEER (<span id="cheerCount">100</span>)</button>
+        <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="action-btn telegram-btn">✈️ Join Telegram</a>
     </div>
 
     <!-- Live Chat Box -->
     <div class="chat-container">
-        <div class="chat-header">💬 Live Match Community Chat</div>
+        <div class="chat-header">💬 Live Match Chat</div>
         <div class="chat-messages" id="chatBox">
-            <div class="chat-msg"><span>Admin:</span> Match shuru ho chuka hai, sabhi enjoy karein! 🔥</div>
-            <div class="chat-msg"><span>Rohit:</span> Kya shandar six mara hai! 🚀</div>
+            <div class="chat-msg"><span>Admin:</span> Proxy link update ho chuki hai, enjoy! 🔥</div>
         </div>
         <div class="chat-input-box">
             <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
@@ -254,29 +151,27 @@
         </div>
     </div>
 
-    <!-- FAQ Section -->
-    <div class="faq-section">
-        <h3 class="section-title">❓ Help & FAQ</h3>
-        <div class="faq-item">
-            <div class="faq-question">Q: Stream rukne par kya karein?</div>
-            <div class="faq-answer">A: Page ko refresh karein ya internet check karein.</div>
-        </div>
-    </div>
-
     <script>
-        // 🛠️ YAHAN APNI LINK PASTE KAREN 
-        var streamUrl = "https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8 :"; 
-        
-        var player = new Clappr.Player({
-            source: streamUrl,
-            parentId: "#player",
-            width: '100%',
-            height: '100%',
-            autoPlay: true,
-            mute: false
-        });
+        // Aapki updated proxy link yahan set hai:
+        var videoSrc = "https://tv1.wapgotube.workers.dev/proxy/https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8";
+        var video = document.getElementById('video');
 
-        let count = 230;
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(e => console.log("Autoplay blocked:", e));
+            });
+        } 
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play().catch(e => console.log("Autoplay blocked:", e));
+            });
+        }
+
+        let count = 100;
         function sendCheer() {
             count++;
             document.getElementById('cheerCount').innerText = count;
