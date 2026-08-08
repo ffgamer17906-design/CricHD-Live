@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crichd Live - Premium Streaming</title>
+    <title>CricHD-Live - Premium Streaming</title>
     <!-- Premium Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- HLS for Streaming -->
@@ -14,20 +14,20 @@
     <style>
         :root {
             --bg-base: #050505;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(255, 42, 42, 0.15);
             --text-main: #ffffff;
             --text-muted: #a1a1aa;
             --accent: #ff2a2a;
             --accent-glow: rgba(255, 42, 42, 0.4);
-            --radius: 24px;
+            --radius: 20px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
             background-color: var(--bg-base);
-            background-image: radial-gradient(circle at 50% 0%, rgba(30, 10, 15, 1) 0%, var(--bg-base) 70%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(40, 5, 5, 1) 0%, var(--bg-base) 70%);
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
@@ -36,38 +36,37 @@
 
         /* 📢 Breaking News Ticker */
         .ticker-wrap {
-            background: #ff2a2a; color: white; padding: 4px 0; font-size: 11px;
-            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            background: var(--accent); color: white; padding: 6px 0; font-size: 11px;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
             overflow: hidden; white-space: nowrap;
         }
-        .ticker-move { display: inline-block; animation: ticker 20s linear infinite; }
+        .ticker-move { display: inline-block; animation: ticker 22s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-        /* ✨ Glass Header */
+        /* ✨ Glass Header (Red & Black) */
         .header {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(20px);
+            background: rgba(10, 5, 5, 0.85); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
         }
         .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge-verified { background: #1da1f2; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+        .badge-verified { background: var(--accent); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
         .header-controls { display: flex; gap: 15px; align-items: center; }
 
         /* 🕒 Modern Digital Clock */
         .live-clock {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 42, 42, 0.08);
             border: 1px solid var(--glass-border);
             padding: 6px 12px;
             border-radius: 12px;
             font-size: 12px;
             font-weight: 600;
-            color: #00ffcc;
+            color: #ff6b6b;
             letter-spacing: 1px;
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.05);
         }
 
         /* 🧹 Clean Mode Button */
@@ -76,15 +75,15 @@
             color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px;
             cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
         }
-        .btn-clean:hover { background: rgba(255,255,255,0.1); }
+        .btn-clean:hover { background: rgba(255, 42, 42, 0.2); }
 
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 5%; display: flex; flex-direction: column; gap: 25px; transition: 0.5s; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 5%; display: flex; flex-direction: column; gap: 20px; transition: 0.5s; }
 
-        /* 🎬 Netflix-Style Player */
+        /* 🎬 Player Wrapper */
         .player-wrapper {
             background: #000; border-radius: var(--radius);
             border: 1px solid var(--glass-border); overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px var(--accent-glow);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--accent-glow);
             position: relative;
         }
         video { width: 100%; aspect-ratio: 16/9; display: block; outline: none; }
@@ -102,37 +101,112 @@
         .player-controls {
             display: flex; justify-content: space-between; padding: 15px;
             background: var(--glass-bg); border-top: 1px solid var(--glass-border);
-            flex-wrap: wrap; gap: 10px;
+            flex-wrap: wrap; gap: 10px; align-items: center;
         }
         .control-btn {
             background: transparent; border: 1px solid var(--glass-border);
             color: white; padding: 8px 15px; border-radius: 12px;
             cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;
         }
-        .control-btn:hover { background: rgba(255,255,255,0.1); }
+        .control-btn:hover { background: rgba(255, 42, 42, 0.2); }
         .primary-btn { background: var(--accent); border-color: var(--accent); }
 
         /* 😊 Match Mood Indicator */
         .mood-board {
             background: var(--glass-bg); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); border-radius: 16px;
-            padding: 20px; display: flex; justify-content: space-around; align-items: center;
+            border: 1px solid var(--glass-border); border-radius: var(--radius);
+            padding: 15px; display: flex; justify-content: space-around; align-items: center;
         }
         .mood-item { text-align: center; cursor: pointer; transition: 0.2s; }
         .mood-item:hover { transform: scale(1.1); }
-        .mood-emoji { font-size: 28px; }
-        .mood-count { font-size: 12px; color: var(--text-muted); margin-top: 5px; font-weight: 600; }
+        .mood-emoji { font-size: 26px; }
+        .mood-count { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+
+        /* 💬 Live Chat Box (Red & Black Theme) */
+        .chat-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            height: 260px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .chat-header {
+            background: rgba(255, 42, 42, 0.15);
+            padding: 10px 15px;
+            font-weight: 700;
+            font-size: 13px;
+            border-bottom: 1px solid var(--glass-border);
+            color: #ff6b6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 12px 15px;
+            overflow-y: auto;
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            scroll-behavior: smooth;
+        }
+        .chat-msg {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 10px;
+            width: fit-content;
+            max-width: 85%;
+        }
+        .chat-msg span {
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-right: 6px;
+        }
+        .chat-input-box {
+            display: flex;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid var(--glass-border);
+        }
+        .chat-input-box input {
+            flex: 1;
+            background: #0f0f0f;
+            border: 1px solid var(--glass-border);
+            padding: 10px 15px;
+            color: white;
+            border-radius: 20px;
+            outline: none;
+            font-size: 13px;
+        }
+        .chat-input-box input:focus { border-color: var(--accent); }
+        .chat-input-box button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            margin-left: 8px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .chat-input-box button:hover { opacity: 0.9; }
 
         /* 📱 Bottom Navigation (Mobile) */
         .bottom-nav {
             display: none; position: fixed; bottom: 0; width: 100%;
-            background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(20px);
+            background: rgba(10, 5, 5, 0.95); backdrop-filter: blur(20px);
             border-top: 1px solid var(--glass-border); z-index: 100;
-            padding: 15px 20px; justify-content: space-between;
+            padding: 12px 20px; justify-content: space-between;
         }
-        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 20px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 18px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
         .nav-item span { font-size: 10px; font-weight: 600; }
-        .nav-active { color: white; }
+        .nav-active { color: var(--accent); }
 
         /* 📌 Floating Telegram Button */
         .float-tg {
@@ -144,24 +218,24 @@
 
         @media (max-width: 768px) {
             .bottom-nav { display: flex; }
-            .float-tg { bottom: 85px; }
+            .float-tg { bottom: 80px; }
         }
 
         /* 🧹 Clean Mode Logic */
         body.clean-mode .hide-on-clean { display: none !important; }
-        body.clean-mode .container { margin-top: 5px; }
+        body.clean-mode .container { margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <!-- Ticker -->
     <div class="ticker-wrap hide-on-clean">
-        <div class="ticker-move">🔥 CRICHD LIVE: Enjoy Ad-Free Premium Interface • Join Telegram for Instant Match Updates 🚀</div>
+        <div class="ticker-move">🔥 CRICHD-LIVE: Enjoy Ad-Free Premium Interface • Join Telegram for Instant Match Updates 🚀</div>
     </div>
 
     <!-- Apple-Style Header -->
     <div class="header">
-        <div class="logo">🏏 Crichd <span style="color:var(--accent)">Live</span> <span class="badge-verified">✔ PRO</span></div>
+        <div class="logo">🏏 CricHD<span style="color:var(--accent)">-Live</span> <span class="badge-verified">✔ PRO</span></div>
         <div class="header-controls">
             <div class="live-clock">⏰ <span id="clock">00:00:00</span></div>
             <button class="btn-clean" onclick="toggleCleanMode()">🧹 Clean Mode</button>
@@ -192,15 +266,28 @@
             <div class="mood-item" onclick="addMood('sad')"><div class="mood-emoji">😟</div><div class="mood-count" id="sadCount">12</div></div>
         </div>
 
+        <!-- 💬 Live Chat Box -->
+        <div class="chat-container hide-on-clean">
+            <div class="chat-header">💬 Live Match Chat</div>
+            <div class="chat-messages" id="chatBox">
+                <div class="chat-msg"><span>Admin:</span> Welcome to CricHD-Live stream! Enjoy the match 🔥</div>
+                <div class="chat-msg"><span>Fan_99:</span> India is going to win this easily!</div>
+            </div>
+            <div class="chat-input-box">
+                <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
+                <button onclick="postMessage()">Send</button>
+            </div>
+        </div>
+
         <!-- Legal/Footer Links -->
-        <div class="hide-on-clean" style="text-align: center; border-top: 1px solid var(--glass-border); padding: 30px 0; margin-top: 10px;">
+        <div class="hide-on-clean" style="text-align: center; border-top: 1px solid var(--glass-border); padding: 20px 0; margin-top: 5px;">
             <p style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                 <a href="#" style="color: #aaa; text-decoration: none;">FAQ</a>
                 <a href="#" style="color: #aaa; text-decoration: none;">Privacy Policy</a>
                 <a href="#" style="color: #aaa; text-decoration: none;">DMCA</a>
                 <a href="#" style="color: #aaa; text-decoration: none;">About</a>
             </p>
-            <p style="font-size: 11px; color: #666; margin-top: 10px;">© 2026 Crichd Live. All rights reserved.</p>
+            <p style="font-size: 11px; color: #666; margin-top: 8px;">© 2026 CricHD-Live. All rights reserved.</p>
         </div>
 
     </div>
@@ -212,12 +299,13 @@
     <div class="bottom-nav hide-on-clean">
         <a href="#" class="nav-item nav-active">🏠<span>Home</span></a>
         <a href="#" class="nav-item">📺<span>Live</span></a>
-        <a href="#" class="nav-item">🏆<span>Matches</span></a>
+        <a href="#" class="nav-item">💬<span>Chat</span></a>
         <a href="#" class="nav-item">⚙️<span>Settings</span></a>
     </div>
 
     <script>
-        var videoSrc = "https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8";
+        // Proxy wali nayi streaming link:
+        var videoSrc = "https://tv1.wapgotube.workers.dev/proxy/https://tvsen7.aynaott.com/sspts1/tracks-v1a1/mono.ts.m3u8";
         var video = document.getElementById('video');
         
         if (Hls.isSupported()) {
@@ -259,6 +347,23 @@
 
         function fireConfetti() {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff2a2a', '#ffffff', '#0088cc'] });
+        }
+
+        function postMessage() {
+            var input = document.getElementById('msgInput');
+            var text = input.value.trim();
+            if(text !== "") {
+                var chatBox = document.getElementById('chatBox');
+                var newMsg = document.createElement('div');
+                newMsg.className = 'chat-msg';
+                newMsg.innerHTML = `<span>You:</span> ${text}`;
+                chatBox.appendChild(newMsg);
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+        function handleEnter(e) {
+            if (e.key === 'Enter') { postMessage(); }
         }
     </script>
 </body>
