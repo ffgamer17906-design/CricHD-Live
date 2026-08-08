@@ -1,378 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CricHD-Live - Premium Streaming</title>
-    <!-- Premium Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- HLS for Streaming -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <!-- Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Google Tag (gtag.js) - Google Analytics Tracking Code -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XZFSKSMR7G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XZFSKSMR7G');
+    </script>
 
+    <!-- SEO Meta Tags -->
+    <title>🔴 CricHD-Live</title>
+    <meta name="description" content="Watch live cricket streaming in HD on crichdlive.in. Enjoy buffering-free live match online, live scores, and playing XI.">
+    <meta name="keywords" content="live cricket streaming, live match online, crichd live, crichdlive.in, today match live">
+    
     <style>
-        :root {
-            --bg-base: #050505;
-            --glass-bg: rgba(20, 20, 20, 0.7);
-            --glass-border: rgba(255, 42, 42, 0.15);
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-            --accent: #ff2a2a;
-            --accent-glow: rgba(255, 42, 42, 0.4);
-            --radius: 20px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-
-        body {
-            background-color: var(--bg-base);
-            background-image: radial-gradient(circle at 50% 0%, rgba(40, 5, 5, 1) 0%, var(--bg-base) 70%);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* 📢 Breaking News Ticker */
-        .ticker-wrap {
-            background: var(--accent); color: white; padding: 6px 0; font-size: 11px;
-            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            overflow: hidden; white-space: nowrap;
-        }
-        .ticker-move { display: inline-block; animation: ticker 22s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-
-        /* ✨ Glass Header (Red & Black) */
-        .header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(10, 5, 5, 0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge-verified { background: var(--accent); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
-        .header-controls { display: flex; gap: 15px; align-items: center; }
-
-        /* 🕒 Modern Digital Clock */
-        .live-clock {
-            background: rgba(255, 42, 42, 0.08);
-            border: 1px solid var(--glass-border);
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #ff6b6b;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* 🧹 Clean Mode Button */
-        .btn-clean {
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
-        }
-        .btn-clean:hover { background: rgba(255, 42, 42, 0.2); }
-
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 5%; display: flex; flex-direction: column; gap: 20px; transition: 0.5s; }
-
-        /* 🎬 Player Wrapper */
-        .player-wrapper {
-            background: #000; border-radius: var(--radius);
-            border: 1px solid var(--glass-border); overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--accent-glow);
-            position: relative;
-        }
-        video { width: 100%; aspect-ratio: 16/9; display: block; outline: none; }
+        :root { --bg-dark: #050505; --primary: #00e5ff; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         
-        .live-status {
-            position: absolute; top: 15px; left: 15px;
-            background: rgba(255, 42, 42, 0.9); color: white;
-            padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 800;
-            display: flex; align-items: center; gap: 6px; text-transform: uppercase;
+        /* Player Wrapper */
+        .player-wrapper { 
+            width: 100%; 
+            max-width: 900px; 
+            background: #ffffff; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            margin-bottom: 20px; 
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.15);
+            position: relative;
+            height: 600px; 
         }
-        .dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* Player Controls Bar */
-        .player-controls {
-            display: flex; justify-content: space-between; padding: 15px;
-            background: var(--glass-bg); border-top: 1px solid var(--glass-border);
-            flex-wrap: wrap; gap: 10px; align-items: center;
+        /* Iframe Cropping Hack */
+        .akamai-iframe {
+            position: absolute;
+            top: -90px;
+            left: 0;
+            width: 100%;
+            height: calc(100% + 90px); 
+            border: none;
         }
-        .control-btn {
-            background: transparent; border: 1px solid var(--glass-border);
-            color: white; padding: 8px 15px; border-radius: 12px;
-            cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;
-        }
-        .control-btn:hover { background: rgba(255, 42, 42, 0.2); }
-        .primary-btn { background: var(--accent); border-color: var(--accent); }
 
-        /* 😊 Match Mood Indicator */
-        .mood-board {
-            background: var(--glass-bg); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); border-radius: var(--radius);
-            padding: 15px; display: flex; justify-content: space-around; align-items: center;
+        /* Mobile Screen Adjustment */
+        @media (max-width: 768px) {
+            .player-wrapper {
+                height: 480px; 
+            }
+            .akamai-iframe {
+                top: -110px; 
+                height: calc(100% + 110px);
+            }
         }
-        .mood-item { text-align: center; cursor: pointer; transition: 0.2s; }
-        .mood-item:hover { transform: scale(1.1); }
-        .mood-emoji { font-size: 26px; }
-        .mood-count { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
 
-        /* 💬 Live Chat Box (Red & Black Theme) */
-        .chat-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            display: flex;
-            flex-direction: column;
-            height: 260px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .chat-header {
-            background: rgba(255, 42, 42, 0.15);
-            padding: 10px 15px;
-            font-weight: 700;
-            font-size: 13px;
-            border-bottom: 1px solid var(--glass-border);
-            color: #ff6b6b;
+        /* VIP Telegram Floating/Top Button Design */
+        .telegram-btn {
+            background: linear-gradient(135deg, #0088cc, #00aaff); 
+            color: #fff; 
+            padding: 12px 28px;
+            font-size: 16px; 
+            font-weight: bold; 
+            border-radius: 50px;
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4); 
+            transition: 0.3s;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .chat-messages {
-            flex: 1;
-            padding: 12px 15px;
-            overflow-y: auto;
-            font-size: 13px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            scroll-behavior: smooth;
-        }
-        .chat-msg {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px 12px;
-            border-radius: 10px;
-            width: fit-content;
-            max-width: 85%;
-        }
-        .chat-msg span {
-            font-weight: 700;
-            color: #ff6b6b;
-            margin-right: 6px;
-        }
-        .chat-input-box {
-            display: flex;
-            padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.4);
-            border-top: 1px solid var(--glass-border);
-        }
-        .chat-input-box input {
-            flex: 1;
-            background: #0f0f0f;
-            border: 1px solid var(--glass-border);
-            padding: 10px 15px;
-            color: white;
-            border-radius: 20px;
-            outline: none;
-            font-size: 13px;
-        }
-        .chat-input-box input:focus { border-color: var(--accent); }
-        .chat-input-box button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            margin-left: 8px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .chat-input-box button:hover { opacity: 0.9; }
+        .telegram-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0, 136, 204, 0.6); }
 
-        /* 📱 Bottom Navigation (Mobile) */
-        .bottom-nav {
-            display: none; position: fixed; bottom: 0; width: 100%;
-            background: rgba(10, 5, 5, 0.95); backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border); z-index: 100;
-            padding: 12px 20px; justify-content: space-between;
+        /* Score & SEO Content */
+        .score-container, .seo-content {
+            max-width: 900px; width: 100%; margin-bottom: 15px; background: #0a0a0a; 
+            padding: 15px; border-radius: 12px; border: 1px solid #1a1a1a; text-align: center; box-sizing: border-box;
         }
-        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 18px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-        .nav-item span { font-size: 10px; font-weight: 600; }
-        .nav-active { color: var(--accent); }
-
-        /* 📌 Floating Telegram Button */
-        .float-tg {
-            position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px;
-            background: #0088cc; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; text-decoration: none; box-shadow: 0 10px 25px rgba(0,136,204,0.5); z-index: 99; transition: 0.3s;
-        }
-        .float-tg:hover { transform: scale(1.1); }
-
-        @media (max-width: 768px) {
-            .bottom-nav { display: flex; }
-            .float-tg { bottom: 80px; }
-        }
-
-        /* 🧹 Clean Mode Logic */
-        body.clean-mode .hide-on-clean { display: none !important; }
-        body.clean-mode .container { margin-top: 10px; }
+        .seo-content { text-align: left; padding: 25px; margin-top: 10px; line-height: 1.6; }
+        .seo-content h1 { color: #00e5ff; font-size: 22px; margin-top: 0; }
+        .seo-content h2 { color: #00e5ff; font-size: 18px; margin-top: 20px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+        .seo-content p { color: #ccc; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <!-- Ticker -->
-    <div class="ticker-wrap hide-on-clean">
-        <div class="ticker-move">🔥 CRICHD-LIVE: Enjoy Ad-Free Premium Interface • Join Telegram for Instant Match Updates 🚀</div>
+    <!-- VIP Telegram Channel Button -->
+    <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="telegram-btn">
+        ✈️ Join VIP Telegram for Links
+    </a>
+
+    <!-- Player Box -->
+    <div class="player-wrapper">
+        <iframe 
+            class="akamai-iframe"
+            scrolling="no" 
+            allow="autoplay; fullscreen" 
+            allowfullscreen="" 
+            src="https://players.akamai.com/players/hlsjs?streamUrl=https%3A%2F%2Ftv1.wapgotube.workers.dev%2Fproxy%2Fhttps%3A%2F%2Fobiramtv.pro.bd%2ftoffee%2Fplay%2Fsony_sports_1_hd.m3u8">
+        </iframe>
     </div>
 
-    <!-- Apple-Style Header -->
-    <div class="header">
-        <div class="logo">🏏 CricHD<span style="color:var(--accent)">-Live</span> <span class="badge-verified">✔ PRO</span></div>
-        <div class="header-controls">
-            <div class="live-clock">⏰ <span id="clock">00:00:00</span></div>
-            <button class="btn-clean" onclick="toggleCleanMode()">🧹 Clean Mode</button>
+    <!-- Live Score Widget -->
+    <div class="score-container">
+        <h3 style="color: #00e5ff; margin-top: 0; font-size: 16px;">🏏 Live Match Score</h3>
+        <div style="background: #ffffff; border-radius: 5px; overflow: hidden; padding: 5px;">
+            <script type="text/javascript" src="https://www.cricwaves.com/cricket/widgets/script/scoreWidgets.js"></script>
         </div>
+        <p style="color: #888; font-size: 12px; margin-bottom: 0; margin-top: 10px;">Score updates automatically.</p>
     </div>
 
-    <div class="container" id="mainContainer">
+    <!-- SEO & Match Details Section -->
+    <div class="seo-content">
+        <h1>CricHD-Live - Watch Live Match Online in HD</h1>
+        <p>Welcome to <strong>CricHD-Live</strong> (crichdlive.in). Enjoy buffering-free live cricket matches online directly on your mobile and desktop in HD quality.</p>
         
-        <!-- Video Player -->
-        <div class="player-wrapper">
-            <div class="live-status"><div class="dot"></div> LIVE</div>
-            <video id="video" controls autoplay playsinline></video>
-            
-            <div class="player-controls">
-                <button class="control-btn" onclick="video.requestPictureInPicture()">📺 Mini Player (PiP)</button>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <div class="control-btn" style="border:none; cursor:default;">👁️ <span id="viewers">1,245</span> Watching</div>
-                    <button class="control-btn primary-btn" onclick="fireConfetti()">🎉 Celebrate</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mood Indicator -->
-        <div class="mood-board hide-on-clean">
-            <div class="mood-item" onclick="addMood('fire')"><div class="mood-emoji">🔥</div><div class="mood-count" id="fireCount">842</div></div>
-            <div class="mood-item" onclick="addMood('love')"><div class="mood-emoji">😍</div><div class="mood-count" id="loveCount">520</div></div>
-            <div class="mood-item" onclick="addMood('shock')"><div class="mood-emoji">🤯</div><div class="mood-count" id="shockCount">125</div></div>
-            <div class="mood-item" onclick="addMood('sad')"><div class="mood-emoji">😟</div><div class="mood-count" id="sadCount">12</div></div>
-        </div>
-
-        <!-- 💬 Live Chat Box -->
-        <div class="chat-container hide-on-clean">
-            <div class="chat-header">💬 Live Match Chat</div>
-            <div class="chat-messages" id="chatBox">
-                <div class="chat-msg"><span>Admin:</span> Welcome to CricHD-Live stream! Enjoy the match 🔥</div>
-                <div class="chat-msg"><span>Fan_99:</span> India is going to win this easily!</div>
-            </div>
-            <div class="chat-input-box">
-                <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
-                <button onclick="postMessage()">Send</button>
-            </div>
-        </div>
-
-        <!-- Legal/Footer Links -->
-        <div class="hide-on-clean" style="text-align: center; border-top: 1px solid var(--glass-border); padding: 20px 0; margin-top: 5px;">
-            <p style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <a href="#" style="color: #aaa; text-decoration: none;">FAQ</a>
-                <a href="#" style="color: #aaa; text-decoration: none;">Privacy Policy</a>
-                <a href="#" style="color: #aaa; text-decoration: none;">DMCA</a>
-                <a href="#" style="color: #aaa; text-decoration: none;">About</a>
-            </p>
-            <p style="font-size: 11px; color: #666; margin-top: 8px;">© 2026 CricHD-Live. All rights reserved.</p>
-        </div>
-
+        <h2>How to watch?</h2>
+        <p>Click on the <strong>"Play stream"</strong> button inside the player above to start watching the live match. Enable fullscreen for the best experience.</p>
     </div>
 
-    <!-- Floating Telegram -->
-    <a href="https://t.me/+ouZw7zirxIsyNTI1" target="_blank" class="float-tg hide-on-clean">✈️</a>
-
-    <!-- Mobile Nav -->
-    <div class="bottom-nav hide-on-clean">
-        <a href="#" class="nav-item nav-active">🏠<span>Home</span></a>
-        <a href="#" class="nav-item">📺<span>Live</span></a>
-        <a href="#" class="nav-item">💬<span>Chat</span></a>
-        <a href="#" class="nav-item">⚙️<span>Settings</span></a>
-    </div>
-
-    <script>
-        // Extracted Stream URL from Akamai Player Link with Proxy:
-        var rawUrl = "https://dishmt.slivcdn.com/hls/live/2011747/TEN1HD/hdntl=exp=1786220671~acl=/*~id=158e8351-3529-4a2f-8dbc-a875e210522e~data=hdntl~hmac=419cc06abe626aa97c516e738d951497f2b5ad11e1f1d952f7886072a907b0e7/master_664.m3u8";
-        
-        var videoSrc = "https://tv1.wapgotube.workers.dev/proxy/" + encodeURIComponent(rawUrl);
-        var video = document.getElementById('video');
-        
-        if (Hls.isSupported()) {
-            var hls = new Hls({
-                xhrSetup: function (xhr, url) {
-                    // Passing headers to bypass domain blocks
-                    xhr.setRequestHeader("Origin", "https://www.sonyliv.com");
-                    xhr.setRequestHeader("Referer", "https://www.sonyliv.com/");
-                }
-            });
-            hls.loadSource(videoSrc);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(()=>{}));
-            
-            hls.on(Hls.Events.ERROR, function(event, data) {
-                if (data.fatal) {
-                    if(data.type === Hls.ErrorTypes.NETWORK_ERROR) { hls.startLoad(); }
-                    else if(data.type === Hls.ErrorTypes.MEDIA_ERROR) { hls.recoverMediaError(); }
-                }
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', () => video.play());
-        }
-
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', { hour12: false });
-        }, 1000);
-
-        setInterval(() => {
-            let current = parseInt(document.getElementById('viewers').innerText.replace(',', ''));
-            let updated = Math.max(1200, current + (Math.floor(Math.random() * 11) - 5));
-            document.getElementById('viewers').innerText = updated.toLocaleString();
-        }, 3000);
-
-        function toggleCleanMode() {
-            document.body.classList.toggle('clean-mode');
-        }
-
-        let moods = { fire: 842, love: 520, shock: 125, sad: 12 };
-        function addMood(type) {
-            moods[type]++;
-            document.getElementById(type + 'Count').innerText = moods[type];
-        }
-
-        function fireConfetti() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff2a2a', '#ffffff', '#0088cc'] });
-        }
-
-        function postMessage() {
-            var input = document.getElementById('msgInput');
-            var text = input.value.trim();
-            if(text !== "") {
-                var chatBox = document.getElementById('chatBox');
-                var newMsg = document.createElement('div');
-                newMsg.className = 'chat-msg';
-                newMsg.innerHTML = `<span>You:</span> ${text}`;
-                chatBox.appendChild(newMsg);
-                input.value = "";
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        }
-        function handleEnter(e) {
-            if (e.key === 'Enter') { postMessage(); }
-        }
-    </script>
 </body>
 </html>
