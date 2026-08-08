@@ -304,18 +304,12 @@
     </div>
 
     <script>
-        var rawUrl = "https://dishmt.slivcdn.com/hls/live/2011747/TEN1HD/hdntl=exp=1786220671~acl=/*~id=158e8351-3529-4a2f-8dbc-a875e210522e~data=hdntl~hmac=419cc06abe626aa97c516e738d951497f2b5ad11e1f1d952f7886072a907b0e7/master_664.m3u8?CMCD=cid%3D%2223efd562d926%22%2Cmtp%3D500%2Cot%3Dm%2Csf%3Dh%2Csid%3D%2273379872-675e-4cd4-85c1-e3a3059aea59%22%2Csu&CMCD=cid%3D%2223efd562d926%22%2Cmtp%3D14400%2Cot%3Dm%2Csf%3Dh%2Csid%3D%2273379872-675e-4cd4-85c1-e3a3059aea59%22";
-        
-        var videoSrc = "https://tv1.wapgotube.workers.dev/proxy/" + encodeURIComponent(rawUrl);
+        // Working Toffee Proxy HLS Link:
+        var videoSrc = "https://tv1.wapgotube.workers.dev/proxy/https://obiramtv.pro.bd/toffee/play/sony_sports_1_hd.m3u8";
         var video = document.getElementById('video');
         
         if (Hls.isSupported()) {
-            var hls = new Hls({
-                xhrSetup: function (xhr, url) {
-                    // Custom headers to pass through proxy securely
-                    xhr.withCredentials = false;
-                }
-            });
+            var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(()=>{}));
@@ -373,4 +367,4 @@
         }
     </script>
 </body>
-</html>
+</html>>
